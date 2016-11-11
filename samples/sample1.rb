@@ -5,7 +5,8 @@ require_relative '../lib/yandex_speech'
 
 speaker = YandexSpeechApi::Speaker.init
 
-speaker.language = :turkey
+speaker.language = :russian
 
-# speaker.voice =
-# speaker.sound_quality
+
+speaker.speed = :fast
+puts speaker.speed.value

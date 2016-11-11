@@ -1,6 +1,11 @@
 # encoding: utf-8
 # frozen_string_literal: true
 module YandexSpeechApi
+  #
+  # samples: Language.init 'Turkey' ==> instance of language class
+  #          Language.init :russian ==> instance of language class
+  #          Language.init 'ops'    ==> UnknownLanguageError exception
+  #
   class Language
     class << self
       def init(language)

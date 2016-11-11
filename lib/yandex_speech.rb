@@ -21,10 +21,10 @@ module YandexSpeechApi
     #
     #   settings[:key]            ==> see Speaker#key for details.
     #   settings[:language]       ==> see Speaker#language for details.
-    #   settings[:sound_quality]  ==> see Speaker#sound_quality for details.
     #   settings[:emotion]        ==> see Speaker#emotion for details.
     #   settings[:voice]          ==> see Speaker#voice for details.
     #   settings[:audio_format]   ==> see Speaker#format for details.
+    #   settings[:speed]          ==> see Speaker#speed for details.
     #
     # output:
     #
@@ -48,10 +48,10 @@ module YandexSpeechApi
      {
       key:           :unknown,
       language:      :russian,
-      sound_quality: :normal,
       emotion:       :neutral,
       voice:         :alyss,
-      audio_format:  :mp3
+      audio_format:  :mp3,
+      speed:         :standard
      }
     end
   end # class Speaker

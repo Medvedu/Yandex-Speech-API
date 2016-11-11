@@ -13,9 +13,12 @@ module YandexSpeechApi
   # project structure
   #
 
+  require_relative 'key'
   require_relative 'language'
-  require_relative 'formats'
+  require_relative 'format'
   require_relative 'voice'
+  require_relative 'emotion'
+  require_relative 'speed'
 
   require_relative 'speaker'
 end # module YandexSpeechApi
