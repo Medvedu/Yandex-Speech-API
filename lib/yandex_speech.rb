@@ -1,5 +1,5 @@
 # encoding: utf-8
-
+# frozen_string_literal: true
 #
 # Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/) written on ruby.
 #
@@ -46,12 +46,12 @@ module YandexSpeechApi
     #
     def self.default_settings
      {
-      key:           :unknown,
-      language:      :russian,
-      emotion:       :neutral,
-      voice:         :alyss,
-      audio_format:  :mp3,
-      speed:         :standard
+       key:           :unknown,
+       language:      :russian,
+       emotion:       :neutral,
+       voice:         :alyss,
+       format:  :mp3,
+       speed:         :standard
      }
     end
   end # class Speaker

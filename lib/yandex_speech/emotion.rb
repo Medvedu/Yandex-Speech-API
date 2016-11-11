@@ -23,8 +23,8 @@ module YandexSpeechApi
 
     private
 
-    def emotion_known?(format)
-      self.class.list.include? format
+    def emotion_known?(emotion)
+      self.class.list.include? emotion
     end
 
     #

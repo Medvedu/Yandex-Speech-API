@@ -15,4 +15,8 @@ Gem::Specification.new do |s|
 
   s.summary     = 'Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/) written on ruby.'
   s.description = 'Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/) written on ruby.'
+
+  s.add_dependency 'rake',        '~> 10.4.2'
+  s.add_dependency 'rest-client', '~> 2.0.0'
+  s.add_dependency 'addressable', '~> 2.4.0'
 end

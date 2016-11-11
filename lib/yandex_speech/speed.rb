@@ -18,7 +18,7 @@ module YandexSpeechApi
     def self.list_mapping
       {
         :slow     => 0.1, # minimal allowed value
-        :standard => 1,   # recommended
+        :standard => 1,   # default
         :fast     => 3    # maximal allowed value
       }
     end
@@ -44,7 +44,7 @@ module YandexSpeechApi
     private
 
     def speed_in_valid_range?(number)
-      number.between? 1,3
+      number.between? 0.1,3
     end
 
     #
@@ -54,9 +54,9 @@ module YandexSpeechApi
       def initialize(speed); super "speed '#{speed}' not allowed for usage. To see list of allowed formats use Emotion#list." end; end
 
     #
-    # This is supposed to been raised when speed is not in [1..3] range.
+    # This is supposed to been raised when speed is not in [(0.1)..3] range.
     #
     class SpeedValueNotInRange < StandardError
-      def initialize(value); super "speed value '#{value}' should be from [1..3] range" end; end
+      def initialize(value); super "speed value '#{value}' should be from [(0.1)..3] range" end; end
   end # class Speed
 end # module YandexSpeechApi

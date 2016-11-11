@@ -3,7 +3,7 @@
 module YandexSpeechApi
   class Format
     #
-    # List of all allowed types:
+    # List of all allowed formats:
     #
     def self.list
       %i(mp3 wav opus)
