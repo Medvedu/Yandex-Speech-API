@@ -1,0 +1,12 @@
+
+/Gemfile.lock
+
+#
+# RubyMine project files
+#
+.idea/
+
+#
+# Do not share your secret key!
+#
+*/secret key/*
