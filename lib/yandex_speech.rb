@@ -5,9 +5,46 @@
 #
 module YandexSpeechApi
   require_relative 'yandex_speech/project_structure'
-
   #
-  # All work with this lib going throw YandexSpeech class
+  # Speaker a class that convert english, ukrain, russian or turkey text to
+  # speech. This solution based on Yandex SpeechKit technology.
+  #
+  # How it works? Examples below:
+  #
+  # Sample 1.
+  #
+  # encoding: utf-8
+  #
+  # require_relative '../lib/yandex_speech'
+  #
+  # key = File.open('secret key/key').readline.strip
+  #
+  # speaker = YandexSpeechApi::Speaker.init key: key
+  # speaker.save_to_file "в 2016 году в 11 месяц в 11 день в 16:55 робо-женщина заговорила.", "wow"
+  #
+  # ----------------------------------------------------
+  #
+  # Sample 2.
+  #
+  # encoding: utf-8
+  # require_relative '../lib/yandex_speech'
+  #
+  # key = File.open('secret key/key').readline.strip
+  #
+  # message = "Don't trouble trouble until trouble troubles you"
+  #
+  # speaker = YandexSpeechApi::Speaker.init({ key: key, language: 'english', voice: :zahar, speed: 0.23 })
+  # speaker.say message
+  #
+  # ----------------------------------------------------
+  #
+  # WARNING!!!
+  #
+  # Before usage you should get your key. It is free for non-commercial purposes (at least for now).
+  #
+  # You can get your key from official site: https://tech.yandex.ru/speechkit
+  #
+  # Do not share this key to third party.
   #
   class Speaker
     #
@@ -50,7 +87,7 @@ module YandexSpeechApi
        language:      :russian,
        emotion:       :neutral,
        voice:         :alyss,
-       format:  :mp3,
+       format:        :mp3,
        speed:         :standard
      }
     end

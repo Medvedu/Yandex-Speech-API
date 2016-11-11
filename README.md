@@ -1,6 +1,15 @@
-### Samples
+# YandexSpeechApi
 
-### Sample 1
+## Описание
+
+## Установка
+
+### Примеры
+----
+
+### Пример 1
+
+_Для начала работы с api достаточно указать ключ:_
 
 ```ruby
 # encoding: utf-8
@@ -13,7 +22,9 @@ speaker = YandexSpeechApi::Speaker.init key: key
 speaker.save_to_file "в 2016 году в 11 месяц в 11 день в 16:55 произошел котоапокалипсис, а cтранная робо-женщина научились говорить."
 ```
 
-### Sample 2
+### Пример 2
+
+_Когда это неоходимо, конструктор позволяет переписывать параметры по умолчанию, например, так можно выбрать язык:_
 
 ```ruby
 # encoding: utf-8
@@ -28,7 +39,9 @@ speaker = YandexSpeechApi::Speaker.init({ key: key, language: 'english', voice: 
 speaker.say message
 ```
 
-### Sample 3
+### Пример 3
+
+_Также поддерживаются стандартные геттеры и сеттеры: _
 
 ```ruby
 # encoding: utf-8
@@ -47,3 +60,17 @@ speaker.speed    = 1.2
 speaker.emotion  = 'good'
 speaker.save_to_file message, "~/downloads/sound"
 ```
+
+## Зависимости
+----
+
+> Ruby 2.0.0 или выше
+
+> rake          '~> 10.4.2'
+> rest-client   '~> 2.0.0'
+> addressable   '~> 2.4.0'
+
+## Лицензия
+----
+
+Данный код распространяется под лицензией MIT, подробнее смотрите [LICENSE](./LICENSE). Остальные права принадлежат их владельцам.

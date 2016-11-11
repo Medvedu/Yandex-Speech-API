@@ -12,17 +12,17 @@ module YandexSpeechApi
   require 'rest-client'
   require 'addressable'
 
-  #
-  # project structure
-  #
+  class << self
+    private
 
-  require_relative 'key'
-  require_relative 'language'
-  require_relative 'format'
-  require_relative 'voice'
-  require_relative 'emotion'
-  require_relative 'speed'
-  require_relative 'connection'
+    def self.load(**params)
+      params[:files].each do |f|
+        require File.join(__dir__, params[:folder].to_s, f)
+      end
+    end
 
-  require_relative 'speaker'
+    # project structure
+
+    load files: %w(key language format voice emotion speed connection speaker)
+  end # class << self
 end # module YandexSpeechApi

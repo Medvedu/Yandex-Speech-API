@@ -2,12 +2,12 @@
 
 Gem::Specification.new do |s|
   s.name          =  'yandex_speech_api'
-  s.version       =  '0.1.0'
+  s.version       =  '0.8.0'
   s.date          =  '2016-11-11'
   s.authors       = ['Kuzichev Michael']
   s.license       = 'MIT'
   s.email         = 'kMedvedu@gmail.com'
-  s.files         = Dir['readme.md', 'license', 'lib/**/*']
+  s.files         = Dir['README.md', 'Gemfile', 'LICENSE', 'lib/**/*']
 
   #s.homepage      = 'https://github.com/Medvedu/tool_attributes'
   s.test_files    = Dir["spec/**/*.rb"]

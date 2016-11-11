@@ -6,10 +6,8 @@ module YandexSpeechApi
 
     def self.warn_message
       %W( WARNING! You initialized Speaker class without key! It means you can
-      not use YandexSpeechApi service. You can get your key here:
-      'https://tech.yandex.ru/speechkit'. You can prevent this warn with
-      overriding default key value (see Speaker#init method description).
-        ).join ' '
+      not use YandexSpeechApi service. You can get your key from there:
+      'https://tech.yandex.ru/speechkit').join ' '
     end
 
     def initialize(key)
