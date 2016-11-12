@@ -7,24 +7,24 @@ module YandexSpeechApi
   module Connection
     class << self
       #
-      # +params+ hash mapping
+      # sensible key/value pairs for +params+ [hash]
       #
-      # params[:text]     # ==> text
-      # params[:format]   # ==> format
+      # params[:text]     # ==> normalized unicode (utf-8) text
+      # params[:format]   # ==> sound format (wav, mp3 or opus)
       # params[:lang]     # ==> language
       # params[:speaker]  # ==> voice
-      # params[:key]      # ==> key
-      # params[:emotion]  # ==> emotion
-      # params[:speed]    # ==> text
+      # params[:key]      # ==> your key
+      # params[:emotion]  # ==> emotion. Evil, Neutral or Good.
+      # params[:speed]    # ==> how fast dictor speaks
       #
       def send(params)
        uri = Addressable::URI.parse URL
        uri.query_values = params
 
        with_exception_control do
-         return RestClient::Request.execute :method => :get,
-                                            :url => uri.to_s,
-                                            :timeout => 10,
+         return RestClient::Request.execute :method       => :get,
+                                            :url          => uri.to_s,
+                                            :timeout      => 10,
                                             :open_timeout => 10
        end
       end

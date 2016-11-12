@@ -12,14 +12,16 @@ module YandexSpeechApi
     #
     # output: [HASH] with pairs: [:mode => associated speed value]
     #
-    # samples: list_mapping[:slow]      # ==> 0.1
+    # samples: list_mapping[:slow]      # ==> 0.5
     #          list_mapping[:wrong_key] # ==> nil
     #
     def self.list_mapping
       {
-        :slow     => 0.1, # minimal allowed value
-        :standard => 1,   # default
-        :fast     => 3    # maximal allowed value
+        :slowest  => 0.1,  # minimal allowed value
+        :slow     => 0.5,
+        :standard => 1,    # default
+        :fast     => 1.5,
+        :fastest  => 3     # maximal allowed value
       }
     end
 

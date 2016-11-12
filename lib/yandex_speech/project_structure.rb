@@ -4,11 +4,11 @@ module YandexSpeechApi
   #
   # dependents from core lib
   #
+  require 'rbconfig'
 
   #
   # dependents from rubygems.org
   #
-
   require 'rest-client'
   require 'addressable'
 
@@ -21,8 +21,9 @@ module YandexSpeechApi
       end
     end
 
+    #
     # project structure
-
-    load files: %w(key language format voice emotion speed connection speaker)
+    #
+    load files: %w(mp3_player key language format voice emotion speed connection speaker)
   end # class << self
 end # module YandexSpeechApi
