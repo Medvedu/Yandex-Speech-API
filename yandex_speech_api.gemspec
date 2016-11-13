@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.email         = 'kMedvedu@gmail.com'
   s.files         = Dir['README.md', 'Gemfile', 'LICENSE', 'lib/**/*']
 
-  #s.homepage      = 'https://github.com/Medvedu/tool_attributes'
-  s.test_files    = Dir["spec/**/*.rb"]
+  s.homepage      = 'https://github.com/Medvedu/Yandex-Speech-API'
+  s.test_files    = Dir['spec/**/*.rb']
   s.require_paths = ['lib']
 
-  s.summary     = 'Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/) written on ruby.'
-  s.description = 'Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/) written on ruby.'
+  s.summary     = 'Wrapper for Yandex Speech API'
+  s.description = 'Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/). Used for text to voice translation. Works for next languages: english, turkey, ukrain, russian. Supports speaker selection and much more...'
 
   s.add_dependency 'rake',        '~> 10.4.2'
   s.add_dependency 'rest-client', '~> 2.0.0'

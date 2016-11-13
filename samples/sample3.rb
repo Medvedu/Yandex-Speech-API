@@ -12,4 +12,4 @@ speaker.voice    = 'Alyss'
 speaker.language = 'Ukrain'
 speaker.speed    = 1.2
 speaker.emotion  = 'good'
-speaker.save_to_file message, "~/downloads/sound"
+speaker.save_to_file message, '~/downloads/sound'

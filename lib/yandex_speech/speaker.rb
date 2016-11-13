@@ -30,12 +30,12 @@ module YandexSpeechApi
     # note: +text+ length limited: only 2000 chars per one request.
     #
     def request(text, params = {})
-      raise KeyNotDefined if @key.value == :unknown
+      raise KeyNotDefined unless key.present?
 
       tmp_text = text.dup.encode(Encoding::UTF_8,
-                            :invalid => :replace,
-                            :undef   => :replace,
-                            :replace => '')
+                                 invalid: :replace,
+                                 undef: :replace,
+                                 replace: '')
       raise TextTooBig if tmp_text.length > 2000
 
       tmp_params = generate_params_for_request tmp_text, params
@@ -68,7 +68,7 @@ module YandexSpeechApi
 
     #
     # This is supposed to been raised when user tries to call #say method
-    # without +key+.
+    # without key.
     #
     class KeyNotDefined < StandardError
       def initialize; super Key.warn_message end; end

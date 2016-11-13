@@ -18,28 +18,29 @@ module YandexSpeechApi
       # params[:speed]    # ==> how fast dictor speaks
       #
       def send(params)
-       uri = Addressable::URI.parse URL
-       uri.query_values = params
+        uri = Addressable::URI.parse URL
+        uri.query_values = params
 
-       with_exception_control do
-         return RestClient::Request.execute :method       => :get,
-                                            :url          => uri.to_s,
-                                            :timeout      => 10,
-                                            :open_timeout => 10
-       end
+        with_exception_control do
+          return RestClient::Request.execute :method       => :get,
+                                             :url          => uri.to_s,
+                                             :timeout      => 10,
+                                             :open_timeout => 10
+        end
       end
 
       private
+
       #
       # todo: add more exceptions
       #
       def with_exception_control
         yield
       rescue RestClient::Locked => exception
-        raise ConnectionRefused.new exception
+        raise ConnectionRefused, exception
       end
 
-      URL = "https://tts.voicetech.yandex.net/generate".freeze
+      URL = "https://tts.voicetech.yandex.net/generate"
     end # class << self
 
     # ----------------------------------------------------

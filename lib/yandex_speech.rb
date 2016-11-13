@@ -1,13 +1,13 @@
 # encoding: utf-8
 # frozen_string_literal: true
 #
-# Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit/) written on ruby.
+# Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit).
 #
 module YandexSpeechApi
   require_relative 'yandex_speech/project_structure'
   #
   # Speaker a class that convert english, ukrain, russian or turkey text to
-  # speech. This solution based on Yandex SpeechKit technology.
+  # speech. Solution based on Yandex SpeechKit technology.
   #
   # How it works? Examples below:
   #
@@ -44,10 +44,10 @@ module YandexSpeechApi
   #
   # You can get your key from official site: https://tech.yandex.ru/speechkit
   #
-  # Note: Yandex provide many services throw this site. Your need key
-  # exactly for +Yandex SpeechKit Cloud+. Any other key will not work!
+  # Note: Yandex provide many services throw this site. Your need exactly
+  # /Yandex SpeechKit Cloud/ key. Other keys will not work!
   #
-  # Do not share this key to third party.
+  # Do not share your key to third party.
   #
   class Speaker
     class << self
@@ -76,17 +76,17 @@ module YandexSpeechApi
       end
 
       #
-      # output: [HASH] default settings
+      # output: [HASH] with default settings.
       #
       def default_settings
-       {
-         key:           :unknown,
-         language:      :russian,
-         emotion:       :neutral,
-         voice:         :alyss,
-         format:        :mp3,
-         speed:         :standard
-       }
+        {
+          key:           :unknown,
+          language:      :russian,
+          emotion:       :neutral,
+          voice:         :alyss,
+          format:        :mp3,
+          speed:         :standard
+        }
       end
     end # class << self
 
@@ -106,7 +106,7 @@ module YandexSpeechApi
     #
     # OR
     #
-    # (integer/float) number from [1..3] range. Lower number means
+    # (integer/float) number from [1..3] range. Lower number mean
     # slower dictor speech speed.
     #
     attr_reader :speed
@@ -136,7 +136,7 @@ module YandexSpeechApi
     # note: do not use speaker for texts written in different language.
     #
     # It means speaker with +russian+ language can not translate,
-    # or even synthesize +english+ text properly.
+    # or even synthesize +english+ text.
     #
     attr_reader :language
 
@@ -146,8 +146,8 @@ module YandexSpeechApi
     #
     # Possible audio formats: :mp3, :wav, :opus
     #
-    # Note: do not expect to gets big files throw 'wav' format. This
-    # files can be chopped by +Yandex+.
+    # Note: do not use 'wav' format for large text translation. Result audio
+    # file will be to big and Yandex truncates those files.
     #
     attr_reader :format
 
@@ -179,14 +179,12 @@ module YandexSpeechApi
     # result: if <ok> you hear the voice o_0
     #         if <error> exception
     #
-    # note: this method overrides +@format+ attribute to :mp3
-    #
     def say(text)
       format = Format.new :mp3
-      binary_data = request text, :format => format
+      binary_data = request text, format: format
 
       tmp_filename = "#{File.expand_path('temporary')}.#{format.type}"
-      File.open(tmp_filename, "w") { |f| f.write binary_data }
+      File.open(tmp_filename, 'w') { |f| f.write binary_data }
 
       player = MP3_Player.init
       player.play tmp_filename
@@ -209,7 +207,7 @@ module YandexSpeechApi
       binary_data = request text
 
       tmp_filename = "#{File.expand_path(filename)}.#{format.type}"
-      File.open(tmp_filename, "w") { |f| f.write binary_data }
+      File.open(tmp_filename, 'w') { |f| f.write binary_data }
 
       tmp_filename.to_s
     end

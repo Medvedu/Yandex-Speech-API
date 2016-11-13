@@ -2,23 +2,23 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   #
-  # Highly simple MP3_Player that should working in most popular
-  # operation systems: windows, mac os, linux.
+  # Very, very simple MP3_Player that designed to work in most popular
+  # operation systems, like: Windows, Mac Os, Linux.
   #
   # MP3_Player is an abstract class. Use MP3_Player#init to create
-  # os-specific player version.
+  # os-specific instance.
   #
   # WARNING! Do not forget to overload +validate_requirements+
   #                                    +validate_mp3_format+
-  # in child classes.
+  # methods in any child class.
   #
   class MP3_Player
     class << self
       #
-      # constructor method MP3_Player#init.
+      # MP3_Player#init
       #
-      # This method used to determinate operation system and call OS-specific
-      # constructor.
+      # This method used to determinate operation system and redirect
+      # call to OS-specific class constructor.
       #
       # Usage example:
       #
@@ -41,13 +41,12 @@ module YandexSpeechApi
       end
 
       #
-      # Proxy method. Used to call private constructor for child
-      # class instance.
+      # Proxy method. Used to call private #new constructor in valid +self+
       #
-      # Do not call MP3_Player#build method it will raise an exception!
+      # Do not use MP3_Player#build method. It will raise an exception!
       #
       def build
-        if self.to_s.split('::').last == 'MP3_Player'
+        if to_s.split('::').last == 'MP3_Player'
           raise AbstractClassCreationError
         else
           new
@@ -82,9 +81,9 @@ module YandexSpeechApi
     # ----------------------------------------------------
 
     #
-    # method #play. +template method pattern+
+    # #play. USER ENDPOINT
     #
-    # Used to validate&play mp3 file with specific +filename+
+    # Used to validate and play mp3 audio file: +filename+
     #
     def play(filename)
       validate_mp3_format filename
@@ -95,11 +94,11 @@ module YandexSpeechApi
     private
 
     #
-    # +abstract+ method. Os specific file launcher.
+    # +abstract+ method. Os specific player launcher.
     #
-    def play_mp3(filename)
+    def play_mp3(_filename)
       if self.class.name.split('::').last == 'MP3_Player'
-        raise StandardError, "Abstract method called"
+        raise StandardError, 'Abstract method called'
       else
         raise MethodNotImplementedError.new self, __method__.to_s
       end
@@ -110,7 +109,7 @@ module YandexSpeechApi
     #
     def validate_requirements
       if self.class.name.split('::').last == 'MP3_Player'
-        raise StandardError, "Abstract method called"
+        raise StandardError, 'Abstract method called'
       else
         raise MethodNotImplementedError.new self, __method__.to_s
       end
@@ -120,8 +119,8 @@ module YandexSpeechApi
     # raise an exception if +filename+ without '.mp3' extension
     #
     def validate_mp3_format(filename)
-      unless File.extname(filename).downcase == '.mp3'
-        raise WrongFileExtension .new filename
+      unless File.extname(filename).casecmp('.mp3').zero?
+        raise WrongFileExtension, filename
       end
     end
 
@@ -131,7 +130,7 @@ module YandexSpeechApi
     # Used to give minimal protection against files with corrupted format.
     #
     class WrongFileExtension < StandardError
-      def initialize(filename); super "mp3 player can work only with files with '.mp3' extension. Please change extension for #{filename} if you sure that format is correct!'" end; end
+      def initialize(filename); super "Mp3 player can work only with files with '.mp3' extension. Please change extension for #{filename} if you sure that format is correct!'" end; end
 
     #
     # This is supposed to been raised when MP3_Player#init can not
@@ -152,7 +151,7 @@ module YandexSpeechApi
     # not implemented method.
     #
     class MethodNotImplementedError < StandardError
-      def initialize(klass, method_name); super "class '#{klass}' called not implemented method: '##{method_name}'." end; end
+      def initialize(klass, method_name); super "Class '#{klass}' called not implemented method: '##{method_name}'." end; end
   end # class MP3_Player
 
   #
@@ -161,16 +160,17 @@ module YandexSpeechApi
 
   class MP3_Player::Linux_MP3_Player < MP3_Player
     private
+
     #
-    # check if program +mpg123+ is installed.
+    # raises an exception unless +mpg123+ installed.
     #
     def validate_requirements
       output = `type 'mpg123'`
-      raise LinuxNotInstalled.new 'mpq123' if output.length.zero?
+      raise LinuxNotInstalled, 'mpq123' if output.length.zero?
     end
 
     #
-    # call filename throw +mpq123+
+    # play selected +filename+ throw +mpq123+
     #
     def play_mp3(filename)
       `mpg123 #{filename}`
@@ -185,13 +185,13 @@ module YandexSpeechApi
 
   # ----------------------------------------------------
 
-  # todo: add windows support (see MP3_Player::Linux_MP3_Player for an example)
+  # TODO: add windows support (see MP3_Player::Linux_MP3_Player for an example)
   class MP3_Player::Windows_MP3_Player < MP3_Player
   end
 
   # ----------------------------------------------------
 
-  # todo: add mac support (see MP3_Player::Linux_MP3_Player for an example)
+  # TODO: add mac support (see MP3_Player::Linux_MP3_Player for an example)
   class MP3_Player::Mac_MP3_Player < MP3_Player
   end
 end # module YandexSpeechApi

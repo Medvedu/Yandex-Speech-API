@@ -2,17 +2,30 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   #
-  # samples: Language.init 'Turkey' ==> instance of language class
-  #          Language.init :russian ==> instance of language class
+  # samples: Language.init 'Turkey' ==> instance of Language::Turkey
+  #          Language.init :russian ==> instance of Language::Russian
   #          Language.init 'ops'    ==> UnknownLanguageError exception
   #
   class Language
     class << self
-      def init(language)
+      def init(language = :english)
         klass = const_get language.capitalize.to_sym
-        klass.send :new
+        klass.build
       rescue NameError
-        raise UnknownLanguageError.new language
+        raise UnknownLanguageError, language
+      end
+
+      #
+      # Proxy method. Used to call private #new constructor in valid +self+
+      #
+      # Do not use Language#build method. It will raise an exception!
+      #
+      def build
+        if to_s.split('::').last == 'Language'
+          raise AbstractClassCreationError
+        else
+          new
+        end
       end
 
       #
@@ -20,9 +33,8 @@ module YandexSpeechApi
       #
       def list
         @cached_list ||=
-          constants.select do |name|
-            const_get(name).class === Class && name != :UnknownLanguageError
-          end
+          constants.select { |name| const_get(name).class === Class }
+                   .reject { |name| name =~ /Error/}
       end
     end # class << self
 
@@ -45,6 +57,13 @@ module YandexSpeechApi
     end
 
     private
+
+    #
+    # This is supposed to been raised when someone tries to call constructor
+    # for abstract +Language+ class.
+    #
+    class AbstractClassCreationError < StandardError
+      def initialize; super "You are not allowed to call constructor for 'Language' class!" end; end
 
     #
     # This is supposed to been raised when unknown language has been selected.
