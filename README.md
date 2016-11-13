@@ -1,5 +1,8 @@
 # YandexSpeechApi
 
+[![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API)
+[![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API)
+
 ## Описание
 
 Wrapper для синтезатора речи, основанного на технологиях Yandex SpeechKit Cloud API.  Предоставляет собой интерфейс для перевода машинного текста (на русском,  английском, украинском или турецком язык) в речь. Может использоваться как для прямого  воспроизведения текста, так и для записи речи в файл.
