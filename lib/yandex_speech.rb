@@ -170,7 +170,7 @@ module YandexSpeechApi
     end
 
     #
-    # The #say method tries to say some +text+
+    # The #say method tries to speech some +text+
     #
     # input:
     #
@@ -192,6 +192,8 @@ module YandexSpeechApi
       File.delete tmp_filename
     end
 
+    #
+    #
     #
     # input:
     #

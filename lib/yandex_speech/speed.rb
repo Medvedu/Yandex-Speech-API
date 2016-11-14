@@ -36,11 +36,11 @@ module YandexSpeechApi
     #
     attr_reader :value
 
-    def initialize(speed)
+    def initialize(speed = :standard)
       @value = if speed.is_a? Numeric
                  speed.round 2
                else
-                 self.class.list_mapping[speed.downcase.to_sym]
+                 list_mapping[speed.downcase.to_sym]
                end
 
       raise SpeedModeNotAllowed, speed if @value.nil?
@@ -51,6 +51,10 @@ module YandexSpeechApi
 
     def speed_in_valid_range?(number)
       number.between? 0.1, 3
+    end
+
+    def list_mapping
+      self.class.send :list_mapping
     end
 
     #

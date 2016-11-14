@@ -173,7 +173,7 @@ module YandexSpeechApi
     # play selected +filename+ throw +mpq123+
     #
     def play_mp3(filename)
-      `mpg123 #{filename}`
+      `mpg123 '#{filename}'`
     end
 
     #
@@ -191,7 +191,13 @@ module YandexSpeechApi
 
   # ----------------------------------------------------
 
-  # TODO: add mac support (see MP3_Player::Linux_MP3_Player for an example)
   class MP3_Player::Mac_MP3_Player < MP3_Player
+    def validate_requirements
+      nil
+    end
+
+    def play_mp3(filename)
+      `afplay '#{filename}'`
+    end
   end
 end # module YandexSpeechApi

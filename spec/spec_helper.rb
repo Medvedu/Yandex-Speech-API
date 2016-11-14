@@ -1,6 +1,9 @@
 # encoding: utf-8
 
+require 'webmock/rspec'
+
 require_relative '../lib/yandex_speech'
 
 RSpec.configure do |config|
+  WebMock.disable_net_connect! allow_localhost: true
 end

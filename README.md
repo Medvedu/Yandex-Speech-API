@@ -1,5 +1,6 @@
 # YandexSpeechApi
 
+[![Gem Version](https://badge.fury.io/rb/yandex_speech_api.svg)](https://badge.fury.io/rb/yandex_speech_api)
 [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API)
 [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API)
 
@@ -9,9 +10,16 @@ Wrapper для синтезатора речи, основанного на те
 
 ## Установка
 
-Перед использованием необходимо получить ключ разработчика. Подробнее на официальном сайте: https://tech.yandex.ru/speechkit/cloud
+1. Перед использованием необходимо получить ключ разработчика. Подробнее на официальном сайте: https://tech.yandex.ru/speechkit/cloud
+2. Добавьте yandex_speech_api в Gemfile.
+3. bundle update & bundle install
+4. Добавьте в проект:
 
-## TODO Дополнить описание установки
+```ruby
+  # ...
+  require 'yandex_speech'  
+  # ... 
+````
 
 В настоящий момент воспроизведение звука напрямую поддерживается для UNIX-подобных операционных систем. 
 
@@ -70,6 +78,11 @@ speaker.speed    = 1.2
 speaker.emotion  = 'good'
 speaker.save_to_file message, "~/downloads/sound"
 ```
+
+## Примечания
+
+1. За один запрос озвучивается текст, длинной до 2000 знаков.
+2. Выбирая язык, учтите: вы ограничены его транскипцией. Т.е. английский переводчик не может озвучивать русские тексты и т.п..
 
 ## Зависимости
 

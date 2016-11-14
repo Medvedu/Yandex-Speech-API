@@ -6,7 +6,7 @@ describe YandexSpeechApi::Format do
   context '#new' do
     it 'creates instance with :mp3 type by default' do
       format_instance = described_class.new
-      expect(format_instance .type).to be :mp3
+      expect(format_instance.type).to be :mp3
     end
 
     it 'raises an exception for unknown format type' do

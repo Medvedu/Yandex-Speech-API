@@ -46,6 +46,6 @@ module YandexSpeechApi
     # ----------------------------------------------------
 
     class ConnectionRefused < StandardError
-      def initialize(exception); super "Connection refused by remote server. Probably something wrong with your key. Anyway exception message was '#{exception.message}''" end; end
+      def initialize(exception); super "Connection refused by remote server. Probably something wrong with your key. Anyway original exception message: '#{exception.message}''" end; end
   end # module Connection
 end # module YandexSpeechApi
