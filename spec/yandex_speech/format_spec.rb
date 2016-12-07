@@ -15,13 +15,13 @@ module YandexSpeechApi
           .to raise_exception described_class::FormatNotAllowed
       end
 
-      it "creates object instance when format param is symbol" do
-        expect(described_class.new :wav)
+      it 'creates object instance when format param is symbol' do
+        expect(described_class.new(:wav))
           .to be_instance_of Format
       end
 
-      it "creates object instance when format param is string" do
-        expect(described_class.new 'Wav')
+      it 'creates object instance when format param is string' do
+        expect(described_class.new('Wav'))
           .to be_instance_of Format
       end
     end # context #new

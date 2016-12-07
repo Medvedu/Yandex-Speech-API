@@ -24,10 +24,10 @@ module YandexSpeechApi
         uri.query_values = params
 
         with_exception_control do
-          return RestClient::Request.execute :method       => :get,
-                                             :url          => uri.to_s,
-                                             :timeout      => 10,
-                                             :open_timeout => 10
+          return RestClient::Request.execute method: :get,
+                                             url: uri.to_s,
+                                             timeout: 10,
+                                             open_timeout: 10
         end
       end
 
@@ -48,7 +48,7 @@ module YandexSpeechApi
       ##
       # YandexAPI endpoint.
       #
-      URL = "https://tts.voicetech.yandex.net/generate"
+      URL = 'https://tts.voicetech.yandex.net/generate'
     end # class << self
 
     # ----------------------------------------------------

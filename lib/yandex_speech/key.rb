@@ -3,7 +3,6 @@
 module YandexSpeechApi
   class Key
     class << self
-
       ##
       # Sets global key.
       #
@@ -32,9 +31,7 @@ module YandexSpeechApi
       ##
       # @return [Key, nil]
       #
-      def global_key
-        @global_key
-      end
+      attr_reader :global_key
     end # class << self
 
     # ----------------------------------------------------
@@ -97,7 +94,7 @@ module YandexSpeechApi
     # without key.
     #
     class KeyNotDefined < StandardError
-      def initialize; super "WARNING! You initialized Speaker class without key! It means you can not use YandexSpeechApi service. You can get your key there: https://tech.yandex.ru/speechkit" end; end
+      def initialize; super 'WARNING! You initialized Speaker class without key! It means you can not use YandexSpeechApi service. You can get your key there: https://tech.yandex.ru/speechkit' end; end
 
     ##
     # This is supposed to been raised when global key going to

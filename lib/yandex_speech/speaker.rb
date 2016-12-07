@@ -5,8 +5,6 @@ module YandexSpeechApi
     private
 
     #
-    # @param [Proc] callback used to send object state throw block.
-    #
     # @sample Block syntax
     #
     #   key = 'Your secret key'#
@@ -24,7 +22,7 @@ module YandexSpeechApi
     #
     # @return [Speaker] object instance
     #
-    def initialize(settings, &callback)
+    def initialize(settings)
       yield self if block_given?
 
       @key      ||= Key.new settings[:key]
@@ -88,6 +86,6 @@ module YandexSpeechApi
     # This is supposed to been raised when user tries to #say too big text.
     #
     class TextTooBig < StandardError
-      def initialize; super 'Text message length limited by 2000 symbols per request' end; end
+      def initialize; super 'Text message length limited by 2000 symbols per request'; end; end
   end # class Speaker
 end # module YandexSpeechApi

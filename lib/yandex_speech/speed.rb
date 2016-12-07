@@ -3,7 +3,6 @@
 module YandexSpeechApi
   class Speed
     class << self
-
       ##
       # Returns numeric value for selected mode.
       #
@@ -17,11 +16,11 @@ module YandexSpeechApi
       #
       def modes
         {
-          :slowest  => 0.1,  # minimal allowed speed
-          :slow     => 0.5,
-          :standard => 1.0,  # default
-          :fast     => 1.5,
-          :fastest  => 3.0   # maximal allowed speed
+          slowest:  0.1, # minimal allowed speed
+          slow:     0.5,
+          standard: 1.0, # default
+          fast:     1.5,
+          fastest:  3.0  # maximal allowed speed
         }
       end
     end # class << self

@@ -53,8 +53,7 @@ module YandexSpeechApi
       def list
         @cached_list ||=
           constants.select { |name| const_get(name).class === Class }
-                   .reject { |name| name =~ /Error/}
-
+                   .reject { |name| name =~ /Error/ }
       end
     end # class << self
 
@@ -95,7 +94,7 @@ module YandexSpeechApi
     # This is supposed to been raised when unknown language has been selected.
     #
     class UnknownLanguageError < StandardError
-      def initialize(lang); super "Unknown language selected: '#{lang}'. See Language#list for list of allowed languages"; end; end
+      def initialize(lang); super "Unknown language selected: '#{lang}'. See Language#list for list of allowed languages" end; end
   end # class Language
 
   # ----------------- add languages here ---------------
