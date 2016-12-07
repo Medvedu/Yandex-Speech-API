@@ -11,6 +11,7 @@ module YandexSpeechApi
   #
   class MP3_Player
     class << self
+
       ##
       # Creates MP3 player instance. Based on OS.
       #
@@ -20,16 +21,17 @@ module YandexSpeechApi
       # @return [Linux_MP3_Player, Mac_MP3_Player, Windows_MP3_Player] instance
       #
       def init
-        case recognize_operation_system
-        when :windows
-          Windows_MP3_Player.build
-        when :linux
-          Linux_MP3_Player.build
-        when :mac_os
-          Mac_MP3_Player.build
-        else
-          raise UnknownOsError
-        end
+        @player ||=
+          case recognize_operation_system
+          when :windows
+            Windows_MP3_Player.build
+          when :linux
+            Linux_MP3_Player.build
+          when :mac_os
+            Mac_MP3_Player.build
+          else
+            raise UnknownOsError
+          end
       end
 
       ##
@@ -49,6 +51,13 @@ module YandexSpeechApi
       end
 
       private
+
+      ##
+      # No need to create new MP3_Player object for each MP3_Player#init call.
+      #
+      # @return [Linux_MP3_Player, Mac_MP3_Player, Windows_MP3_Player] instance
+      #
+      attr_reader :player
 
       ##
       # From what OS we launched?

@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/yandex_speech_api.svg)](https://badge.fury.io/rb/yandex_speech_api)
 [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API)
 [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API)
+[![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API)
 
 ## Описание
 
@@ -12,7 +13,7 @@ Wrapper для синтезатора речи, основанного на те
 
 1. Перед использованием необходимо получить ключ разработчика. Подробнее на официальном сайте: https://tech.yandex.ru/speechkit/cloud
 2. Добавьте yandex_speech_api в Gemfile.
-3. bundle update & bundle install
+3. bundle install & bundle update 
 4. Добавьте в проект:
 
 ```ruby
@@ -21,7 +22,7 @@ Wrapper для синтезатора речи, основанного на те
   # ... 
 ````
 
-В настоящий момент воспроизведение звука напрямую поддерживается для UNIX-подобных операционных систем. 
+Воспроизведение звука поддерживается для UNIX-подобных операционных систем (Mac + Linux). 
 
 ### Примеры использования
 
@@ -30,14 +31,13 @@ Wrapper для синтезатора речи, основанного на те
 _Для начала работы с api достаточно указать ключ:_
 
 ```ruby
-# encoding: utf-8
 
-require_relative '../lib/yandex_speech'
+require 'yandex_speech'
 
 key = File.open('secret key/key').readline.strip
 
 speaker = YandexSpeechApi::Speaker.init key: key
-speaker.save_to_file "в 2016 году в 11 месяц в 11 день в 16:55 произошел котоапокалипсис, а cтранная робо-женщина научились говорить."
+speaker.save_to_file "Не будите спящего кота."
 ```
 
 ### Пример 2
@@ -45,26 +45,24 @@ speaker.save_to_file "в 2016 году в 11 месяц в 11 день в 16:55 
 _Когда это неоходимо, конструктор позволяет переписывать параметры по умолчанию, например, так можно выбрать язык:_
 
 ```ruby
-# encoding: utf-8
 
-require_relative '../lib/yandex_speech'
+require 'yandex_speech'
 
-key = File.open('secret key/key').readline.strip
+YandexSpeechApi::Key.global_key = File.open('secret key/key').readline.strip
 
 message = "Don't trouble trouble until trouble troubles you"
-
-speaker = YandexSpeechApi::Speaker.init({ key: key, language: 'english', voice: :zahar, speed: 0.23 })
+speaker = YandexSpeechApi::Speaker.init(language: 'english', voice: :zahar, speed: 0.23)
 speaker.say message
 ```
+
+Обратите внимание, передавать key каждый раз нет никакой необходимости. Достаточно один раз установить YandexSpeechApi::Key.global_key.  
 
 ### Пример 3
 
 _Также поддерживаются геттеры и сеттеры:_
 
 ```ruby
-# encoding: utf-8
-
-require_relative '../lib/yandex_speech'
+require 'yandex_speech'
 
 key = File.open('secret key/key').readline.strip
 
@@ -76,27 +74,46 @@ speaker.voice    = 'Alyss'
 speaker.language = 'Ukrain'
 speaker.speed    = 1.2
 speaker.emotion  = 'good'
-speaker.save_to_file message, "~/downloads/sound"
+speaker.save_to_file message, '~/downloads/sound'
+```
+
+### Пример 4
+
+_И, наконец, установка параметров через блок_
+
+```ruby
+
+require 'yandex_speech'
+
+key = File.open('secret key/key').readline.strip
+message = "one two three. one two three. one two three four."
+
+speaker = YandexSpeechApi::Speaker.init do |s|
+  s.key      = key
+  s.voice    = :jane
+  s.language = :english
+  s.speed    = :slow
+  s.emotion  = :good
+end
+
+speaker.say message
 ```
 
 ## Примечания
 
 1. За один запрос озвучивается текст, длинной до 2000 знаков.
-2. Выбирая язык, учтите: вы ограничены его транскипцией. Т.е. английский переводчик не может озвучивать русские тексты и т.п..
+2. Выбирая язык, учтите: вы ограничены его фонетикой, так, например, английский переводчик не умеет озвучивать русские тексты и т.п. (На самом деле это не совсем точно — хотя официальная документация и не рекомендует выставлять некорректные пары язык-текст, в то же время, _русский_ переводчик фактически может воспроизводить английские тексты)
 
 ## Зависимости
 
-> Ruby 2.0.0 или выше
+* Ruby 2.0.0 или выше
 
-> rake          '~> 10.4.2'
-
-> rest-client   '~> 2.0.0'
-
-> addressable   '~> 2.4.0'
+* rest-client   '>= 2.0.0'
+* addressable   '>= 2.4.0'
 
 ### Linux-специфичные зависимости:
 
-> mpg123
+* mpg123
 
 ## Лицензия
 

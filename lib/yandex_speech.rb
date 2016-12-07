@@ -46,6 +46,7 @@ module YandexSpeechApi
       ##
       # Creates +Speaker+ instance.
       #
+      # @param [Proc] callback used to set object state throw {do ... end} block.
       #
       # @param [HASH] settings that you maybe want to override.
       #
@@ -58,8 +59,8 @@ module YandexSpeechApi
       #
       # @return [YandexSpeech] the speaker object.
       #
-      def init(settings = {})
-        new default_settings.merge(settings)
+      def init(settings = {}, &callback)
+        new default_settings.merge(settings), &callback
       end
 
       ##
@@ -186,13 +187,14 @@ module YandexSpeechApi
       format = Format.new :mp3
       binary_data = request text, format: format
 
-      tmp_filename = "#{File.expand_path('temporary')}.#{format.type}"
-      File.open(tmp_filename, 'w') { |f| f.write binary_data }
+      file = Tempfile.new ['yandex_speech_temp_file', '.mp3']
+      file.write binary_data
 
       player = MP3_Player.init
-      player.play tmp_filename
-
-      File.delete tmp_filename
+      player.play file.path
+    ensure
+      file.close
+      file.unlink
     end
 
     ##
@@ -201,15 +203,15 @@ module YandexSpeechApi
     # @param [String] text something that should been said.
     # @param [String] filename ('temporary') path to file (without file extension)
     #
-    # @return:
+    # @return [String] absolute path to created file.
     #
     def save_to_file(text, filename = 'temporary')
       binary_data = request text
 
-      tmp_filename = "#{File.expand_path(filename)}.#{format.type}"
-      File.open(tmp_filename, 'w') { |f| f.write binary_data }
+      full_path = "#{File.expand_path(filename)}.#{format.type}"
+      File.open(full_path, 'w') { |f| f.write binary_data }
 
-      tmp_filename.to_s
+      full_path.to_s
     end
 
     private
@@ -217,8 +219,8 @@ module YandexSpeechApi
     ##
     # Yandex Speech ApiKey.
     #
-    # Key is not something that should be shared with any other
-    # class. Setter method still available to call from public zone thought.
+    # Key is not something that should be shared with any other class. Setter
+    # method still available to call from public zone thought.
     #
     # @setter #key=(new_key)
     #   @param [String] new_key

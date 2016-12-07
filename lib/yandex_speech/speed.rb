@@ -3,27 +3,19 @@
 module YandexSpeechApi
   class Speed
     class << self
-      ##
-      # List of speed modes
-      #
-      # @return [Array<String>]
-      #
-      def list
-        list_mapping.keys
-      end
 
       ##
-      # Returns associated with key speed value.
+      # Returns numeric value for selected mode.
       #
       # @sample Sample 1
-      #   list_mapping[:slow]      # ==> 0.5
+      #   list[:slow]      # ==> 0.5
       #
       # @sample Sample 2
-      #   list_mapping[:wrong_key] # ==> nil
+      #   list[:wrong_key] # ==> nil
       #
-      # @return [HASH]
+      # @return [Float, nil]
       #
-      def list_mapping
+      def modes
         {
           :slowest  => 0.1,  # minimal allowed speed
           :slow     => 0.5,
@@ -33,8 +25,6 @@ module YandexSpeechApi
         }
       end
     end # class << self
-
-    private_class_method :list_mapping
 
     # ----------------------------------------------------
 
@@ -48,7 +38,7 @@ module YandexSpeechApi
       @value = if speed.is_a? Numeric
                  speed.round 2
                else
-                 list_mapping[speed.downcase.to_sym]
+                 Speed.modes[speed.downcase.to_sym]
                end
 
       raise SpeedModeNotAllowed, speed if @value.nil?
@@ -59,10 +49,6 @@ module YandexSpeechApi
 
     def speed_in_valid_range?(number)
       number.between? 0.1, 3
-    end
-
-    def list_mapping
-      self.class.send :list_mapping
     end
 
     ##

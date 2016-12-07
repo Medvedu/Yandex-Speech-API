@@ -2,23 +2,24 @@
 
 require 'spec_helper'
 
-describe YandexSpeechApi::Key do
-  context '#value' do
-    it 'returns :unknown key by default' do
-      instance = described_class.new
-      expect(instance.value).to be_eql :unknown
-    end
-  end # context #new
+module YandexSpeechApi
+  describe Key do
+    context '#get' do
+      it 'raises an exception for not defined (instance or global) key' do
+        key = described_class.new
+        expect{key.get}.to raise_error(Key::KeyNotDefined)
+      end
 
-  context '#present?' do
-    it 'returns false for default key' do
-      instance = described_class.new
-      expect(instance.present?).to be_falsey
-    end
+      it 'not raises an exception if instance key defined' do
+        key = described_class.new "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx"
+        expect{key.get}.to_not raise_error
+      end
 
-    it 'returns true for custom key' do
-      instance = described_class.new "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx"
-      expect(instance.present?).to be_truthy
-    end
-  end # context #present?
-end # describe YandexSpeechApi::Key
+      it 'not raises an exception if global key defined' do
+        described_class.global_key = "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx"
+        key = described_class.new
+        expect{key.get}.to_not raise_error
+      end
+    end # context #get
+  end # describe Key
+end # module YandexSpeechApi
