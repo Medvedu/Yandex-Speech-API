@@ -3,26 +3,33 @@
 module YandexSpeechApi
   class Speed
     class << self
+      ##
+      # List of speed modes
       #
-      # List of all allowed speed modes:
+      # @return [Array<String>]
       #
       def list
         list_mapping.keys
       end
 
+      ##
+      # Returns associated with key speed value.
       #
-      # output: [HASH] with pairs: [:mode => associated speed value]
+      # @sample Sample 1
+      #   list_mapping[:slow]      # ==> 0.5
       #
-      # samples: list_mapping[:slow]      # ==> 0.5
-      #          list_mapping[:wrong_key] # ==> nil
+      # @sample Sample 2
+      #   list_mapping[:wrong_key] # ==> nil
+      #
+      # @return [HASH]
       #
       def list_mapping
         {
-          :slowest  => 0.1,  # minimal allowed value
+          :slowest  => 0.1,  # minimal allowed speed
           :slow     => 0.5,
-          :standard => 1,    # default
+          :standard => 1.0,  # default
           :fast     => 1.5,
-          :fastest  => 3     # maximal allowed value
+          :fastest  => 3.0   # maximal allowed speed
         }
       end
     end # class << self
@@ -32,7 +39,8 @@ module YandexSpeechApi
     # ----------------------------------------------------
 
     #
-    # normalized speed value
+    # @return [Float]
+    #   In range [(0.1)..3.0]
     #
     attr_reader :value
 
@@ -57,14 +65,14 @@ module YandexSpeechApi
       self.class.send :list_mapping
     end
 
-    #
+    ##
     # This is supposed to been raised when speed mode is unknown.
     #
     class SpeedModeNotAllowed < StandardError
       def initialize(speed); super "Speed '#{speed}' not allowed for usage. To see list of allowed formats use Emotion#list." end; end
 
-    #
-    # This is supposed to been raised when speed is not in [(0.1)..3] range.
+    ##
+    # This is supposed to been raised when +speed+ param is not in [(0.1)..3] range.
     #
     class SpeedValueNotInRange < StandardError
       def initialize(value); super "Speed value '#{value}' should be from [(0.1)..3] range" end; end

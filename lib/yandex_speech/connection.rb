@@ -1,21 +1,23 @@
 # encoding: utf-8
 # frozen_string_literal: true
 module YandexSpeechApi
-  #
-  # all connections going throw this module.
-  #
-  module Connection
+  module Connection # no-doc
     class << self
+      ##
+      # Sends :get request to +URL+
       #
-      # sensible key/value pairs for +params+ [hash]
+      # @param [Hash] params
+      # @option [String]         :text
+      # @option [Symbol]         :format
+      # @option [String]         :lang
+      # @option [String]         :speaker
+      # @option [String, Symbol] :key
+      # @option [Symbol]         :emotion
+      # @option [Float]          :speed
       #
-      # params[:text]     # ==> normalized unicode (utf-8) text
-      # params[:format]   # ==> sound format (wav, mp3 or opus)
-      # params[:lang]     # ==> language
-      # params[:speaker]  # ==> voice
-      # params[:key]      # ==> your key
-      # params[:emotion]  # ==> emotion. Evil, Neutral or Good.
-      # params[:speed]    # ==> how fast dictor speaks
+      # @exceptions see Connection#with_exception_control
+      #
+      # @return [binary data, nil]
       #
       def send(params)
         uri = Addressable::URI.parse URL
@@ -31,8 +33,11 @@ module YandexSpeechApi
 
       private
 
+      ##
+      # Holds exceptions for Connection#send.
       #
-      # todo: add more exceptions
+      # @exception RestClient::Locked
+      #   raised when request refused by remote server
       #
       def with_exception_control
         yield
@@ -40,12 +45,19 @@ module YandexSpeechApi
         raise ConnectionRefused, exception
       end
 
+      ##
+      # YandexAPI endpoint.
+      #
       URL = "https://tts.voicetech.yandex.net/generate"
     end # class << self
 
     # ----------------------------------------------------
 
+    ##
+    # This is supposed to been raised when RestClient::Request failed for
+    # some reason.
+    #
     class ConnectionRefused < StandardError
-      def initialize(exception); super "Connection refused by remote server. Probably something wrong with your key. Anyway original exception message: '#{exception.message}''" end; end
+      def initialize(exception); super "Connection refused by remote server. Exception message: '#{exception.message}'" end; end
   end # module Connection
 end # module YandexSpeechApi

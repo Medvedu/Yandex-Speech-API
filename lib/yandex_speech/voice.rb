@@ -2,12 +2,17 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   #
-  # samples: Voice.new('Oksana') ==> instance of voice class
-  #          Voice.new(:bill)    ==> VoiceNotAllowed exception
+  # @sample Valid Usage
+  #   Voice.new('Oksana') # ==> instance of voice class
+  #
+  # @sample Bad Usage
+  #   Voice.new(:bill)    # ==> VoiceNotAllowed exception
   #
   class Voice
+    ##
+    # List of allowed voices
     #
-    # List of all allowed voices:
+    # @return [Array<String>]
     #
     def self.list
       %i(jane oksana alyss omazh zahar ermil)
@@ -16,7 +21,8 @@ module YandexSpeechApi
     # ----------------------------------------------------
 
     #
-    # normalized voice name
+    # @return [Symbol]
+    #    possible values: :jane, :oksana, :alyss, :omazh, :zahar, :ermil
     #
     attr_reader :name
 
@@ -31,8 +37,8 @@ module YandexSpeechApi
       self.class.list.include? name
     end
 
-    #
-    # This is supposed to been raised when unknown voice has been selected.
+    ##
+    # This is supposed to been raised when unknown voice was selected.
     #
     class VoiceNotAllowed < StandardError
       def initialize(voice); super "Voice '#{voice}' not allowed for usage. To see list of allowed voices use Voice#list" end; end

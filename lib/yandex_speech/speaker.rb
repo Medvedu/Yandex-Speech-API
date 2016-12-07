@@ -2,11 +2,11 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   class Speaker
-    #
-    # encapsulated methods (we are going inside the cat)
-    #
     private
 
+    #
+    # @return [Speaker] object instance
+    #
     def initialize(settings)
       @key      = Key.new settings[:key]
       @voice    = Voice.new settings[:voice]
@@ -16,57 +16,67 @@ module YandexSpeechApi
       @format   = Format.new settings[:format]
     end
 
+    ##
+    # Prepares and sends request on Yandex Servers.
     #
-    # input:
+    # @param [String] text something that should been said.
+    # @param [Hash] params overrides object state (only for _this_ request)
     #
-    #   text   [string] something that should be said.
-    #   params [hash][optional] overrides object state only for _this_ request.
+    # @exception KeyNotDefined
+    #   raised when +key+ not set
     #
-    # output: if <ok> memoized binary file (format depends from +@format+
-    #                                       variable)
+    # @exception TextTooBig
+    #   raised when param +text+ too big (>2000 symbols)
     #
-    #         if <error> an exception.
-    #
-    # note: +text+ length limited: only 2000 chars per one request.
+    # @return [Array] memoized binary file.
     #
     def request(text, params = {})
-      raise KeyNotDefined unless key.present?
+      raise KeyNotDefined unless key.present? || params[:key]
 
-      tmp_text = text.dup.encode(Encoding::UTF_8,
-                                 invalid: :replace,
-                                 undef: :replace,
-                                 replace: '')
-      raise TextTooBig if tmp_text.length > 2000
-
-      tmp_params = generate_params_for_request tmp_text, params
+      tmp_params = generate_params_for_request text, params
       Connection.send tmp_params
     end
 
+    ##
+    # Generates params for request.
     #
-    # REVIEW rewrite this?
+    # @param [String] text
+    #
+    # @param [Hash] params ({})
+    # @option [Format]   :format   (nil).
+    # @option [Language] :language (nil).
+    # @option [Voice]    :voice    (nil).
+    # @option [Key]      :key      (nil).
+    # @option [Emotion]  :emotion  (nil).
+    # @option [Speed]    :speed    (nil).
+    #
+    # @return [Hash]
     #
     def generate_params_for_request(text, params = {})
+      tmp_text = text.dup.encode(Encoding::UTF_8, invalid: :replace,
+                                 undef: :replace, replace: '')
+      raise TextTooBig if tmp_text.length > 2000
+
       tmp = {
-        text: text, format: format.type, lang: language.code,
-        speaker: voice.name, key: key.value, emotion: emotion.type,
-        speed: speed.value }
+        text:    tmp_text,
+        format:  params[:format]   ? params[:format].type   : format.type,
+        lang:    params[:language] ? params[:language].code : language.code,
+        speaker: params[:voice]    ? params[:voice].name    : voice.name,
+        key:     params[:key]      ? params[:key].value     : key.value,
+        emotion: params[:emotion]  ? params[:emotion].type  : emotion.type,
+        speed:   params[:speed]    ? params[:speed].value   : speed.value
+      }
 
-      tmp[:format]  = params[:format].type  if params[:format]
-      tmp[:lang]    = params[:lang].code    if params[:lang]
-      tmp[:speaker] = params[:speaker].name if params[:speaker]
-      tmp[:emotion] = params[:emotion].type if params[:emotion]
-      tmp[:speed]   = params[:speed].value  if params[:speed]
-
-      tmp
+      return tmp
     end
 
-    #
+    ##
     # This is supposed to been raised when user tries to #say too big text.
     #
     class TextTooBig < StandardError
       def initialize; super 'Text message length limited by 2000 symbols per request' end; end
 
-    #
+    ##
     # This is supposed to been raised when user tries to call #say method
     # without key.
     #

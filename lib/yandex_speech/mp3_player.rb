@@ -5,27 +5,19 @@ module YandexSpeechApi
   # Very, very simple MP3_Player that designed to work in most popular
   # operation systems, like: Windows, Mac Os, Linux.
   #
-  # MP3_Player is an abstract class. Use MP3_Player#init to create
-  # os-specific instance.
-  #
-  # WARNING! Do not forget to overload +validate_requirements+
-  #                                    +validate_mp3_format+
-  # methods in any child class.
+  # @sample #1
+  #   player = MP3_Player.init
+  #   player.play filename
   #
   class MP3_Player
     class << self
+      ##
+      # Creates MP3 player instance. Based on OS.
       #
-      # MP3_Player#init
+      # @exception UnknownOsError
+      #   raised when OS unknown
       #
-      # This method used to determinate operation system and redirect
-      # call to OS-specific class constructor.
-      #
-      # Usage example:
-      #
-      #  …
-      #  player = MP3_Player.init
-      #  player.play filename
-      #  …
+      # @return [Linux_MP3_Player, Mac_MP3_Player, Windows_MP3_Player] instance
       #
       def init
         case recognize_operation_system
@@ -40,10 +32,13 @@ module YandexSpeechApi
         end
       end
 
+      ##
+      # Player constructor.
       #
-      # Proxy method. Used to call private #new constructor in valid +self+
+      # @exception AbstractClassCreationError
+      #   raised when MP3_Player#build called
       #
-      # Do not use MP3_Player#build method. It will raise an exception!
+      # @return [Linux_MP3_Player, Mac_MP3_Player, Windows_MP3_Player] instance
       #
       def build
         if to_s.split('::').last == 'MP3_Player'
@@ -55,11 +50,16 @@ module YandexSpeechApi
 
       private
 
+      ##
+      # From what OS we launched?
       #
-      # output: current operation system [symbol]
+      # @sample #1
+      #   recognize_operation_system # ==> :linux
       #
-      # example: recognize_operation_system # ==> :linux
-      #          recognize_operation_system # ==> :unknown
+      # @sample #2
+      #   recognize_operation_system # ==> :unknown
+      #
+      # @return [Symbol] OS name
       #
       def recognize_operation_system
         case RbConfig::CONFIG['host_os']
@@ -80,10 +80,8 @@ module YandexSpeechApi
 
     # ----------------------------------------------------
 
-    #
-    # #play. USER ENDPOINT
-    #
-    # Used to validate and play mp3 audio file: +filename+
+    ##
+    # plays the sound
     #
     def play(filename)
       validate_mp3_format filename
@@ -93,8 +91,14 @@ module YandexSpeechApi
 
     private
 
+    ##
+    # Plays sound. Abstract
     #
-    # +abstract+ method. Os specific player launcher.
+    # @exception StandardError
+    #   raised if #play_mp3 was called from MP3_Player
+    #
+    # @exception MethodNotImplementedError
+    #   raised if #play_mp3 was called, but not overridden from MP3_Player child
     #
     def play_mp3(_filename)
       if self.class.name.split('::').last == 'MP3_Player'
@@ -104,8 +108,14 @@ module YandexSpeechApi
       end
     end
 
+    ##
+    # Validates OS requirements. Abstract
     #
-    # +abstract+ method. Os specific requirements validator.
+    # @exception StandardError
+    #   raised if #validate_requirements was called from MP3_Player
+    #
+    # @exception MethodNotImplementedError
+    #   raised if #validate_requirements was called, but not overridden from MP3_Player child
     #
     def validate_requirements
       if self.class.name.split('::').last == 'MP3_Player'
@@ -115,7 +125,7 @@ module YandexSpeechApi
       end
     end
 
-    #
+    ##
     # raise an exception if +filename+ without '.mp3' extension
     #
     def validate_mp3_format(filename)
@@ -124,31 +134,31 @@ module YandexSpeechApi
       end
     end
 
-    #
-    # This is supposed to been raised when +filename+ has wrong (not mp3) extension.
-    #
-    # Used to give minimal protection against files with corrupted format.
+    ##
+    # This is supposed to been raised when +filename+ has wrong (not mp3)
+    # extension. Used to give minimal protection against files with
+    # unknown format.
     #
     class WrongFileExtension < StandardError
       def initialize(filename); super "Mp3 player can work only with files with '.mp3' extension. Please change extension for #{filename} if you sure that format is correct!'" end; end
 
-    #
-    # This is supposed to been raised when MP3_Player#init can not
-    # recognize what operation system is used.
+    ##
+    # This is supposed to been raised when MP3_Player#init can not recognize
+    # what operation system is used.
     #
     class UnknownOsError < StandardError
       def initialize; super "#{self.class}#recognize_operation_system cannot recognize your operation system!" end; end
 
-    #
+    ##
     # This is supposed to been raised when someone tries to call constructor
     # for abstract +MP3_Player+ class.
     #
     class AbstractClassCreationError < StandardError
       def initialize; super "You are not allowed to call constructor for 'MP3_Player' class!" end; end
 
-    #
-    # This is supposed to been raised when child class tries to call
-    # not implemented method.
+    ##
+    # This is supposed to been raised when child class tries to call not
+    # implemented method.
     #
     class MethodNotImplementedError < StandardError
       def initialize(klass, method_name); super "Class '#{klass}' called not implemented method: '##{method_name}'." end; end
@@ -161,7 +171,7 @@ module YandexSpeechApi
   class MP3_Player::Linux_MP3_Player < MP3_Player
     private
 
-    #
+    ##
     # raises an exception unless +mpg123+ installed.
     #
     def validate_requirements
@@ -169,14 +179,14 @@ module YandexSpeechApi
       raise LinuxNotInstalled, 'mpq123' if output.length.zero?
     end
 
-    #
-    # play selected +filename+ throw +mpq123+
+    ##
+    # plays selected +filename+ throw +mpq123+
     #
     def play_mp3(filename)
-      `mpg123 '#{filename}'`
+      `mpg123 -q '#{filename}'`
     end
 
-    #
+    ##
     # This is supposed to been raised when necessary linux program not found.
     #
     class LinuxNotInstalled < StandardError

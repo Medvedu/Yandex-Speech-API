@@ -2,8 +2,10 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   class Emotion
+    ##
+    # List of allowed emotions
     #
-    # List of all allowed emotions:
+    # @return [Array<String>]
     #
     def self.list
       %i(evil good neutral)
@@ -12,7 +14,8 @@ module YandexSpeechApi
     # ----------------------------------------------------
 
     #
-    # normalized emotion type
+    # @return [Symbol]
+    #   possible values: :evil, :good or :neutral
     #
     attr_reader :type
 
@@ -27,7 +30,7 @@ module YandexSpeechApi
       self.class.list.include? emotion
     end
 
-    #
+    ##
     # This is supposed to been raised when unknown emotion has been selected.
     #
     class EmotionNotAllowed < StandardError
