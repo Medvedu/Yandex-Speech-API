@@ -40,7 +40,6 @@ module YandexSpeechApi
 
     class VoiceNotAllowed < StandardError
       def initialize(voice)
-        super "Voice '#{voice}' not allowed for usage. To see list of allowed voices use Voice#list"
-      end; end
+        super "Voice '#{voice}' not allowed for usage. To see list of allowed voices use Voice#list" end; end
   end # class Voice
 end # module YandexSpeechApi
