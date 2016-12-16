@@ -1,4 +1,5 @@
 /Gemfile.lock
+spec/coverage
 .idea/
 *.gem
 
@@ -8,4 +9,3 @@
 
 # Do not share your secret key!
 */secret key/key
-
