@@ -38,7 +38,7 @@ module YandexSpeechApi
       def with_exception_control
         yield
       rescue RestClient::Exception => exception
-        raise ConnectionRefused, exception
+        raise Refused, exception
       end
 
       ##
@@ -50,7 +50,7 @@ module YandexSpeechApi
     ##
     # Raised when RestClient::Exception failed for some reason.
 
-    class ConnectionRefused < StandardError
-      def initialize(exception); super "Connection refused by remote server. Exception message: '#{exception.message}'" end; end
+    class Refused < StandardError
+      def initialize(exception); super "Connection refused by remote server. Error Code: '#{exception.http_code}'. exception message: '#{exception.message}'." end; end
   end # module Connection
 end # module YandexSpeechApi

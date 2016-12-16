@@ -219,9 +219,10 @@ module YandexSpeechApi
 
       player = MP3_Player.init
       player.play file.path
-    ensure
-      file.close
-      file.unlink
+
+      file.close(true) if file
+
+      return nil
     end
 
     ##

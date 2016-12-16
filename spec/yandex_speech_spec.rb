@@ -85,6 +85,21 @@ module YandexSpeechApi
           speaker = Speaker.init key: "xxxxx-xxxxx-xxxxx-xxxxx"
           speaker.say("Не будите спящего кота.")
         end
+
+        it 'raises exception when RestClient reported about fail' do
+          dbl = double
+
+          allow(dbl).to receive(:http_code).and_return('400')
+          allow(dbl).to receive(:message).and_return('message')
+
+          allow(Connection).to receive(:send)
+            .and_raise Connection::Refused, dbl
+
+          bobby = Speaker.init key: "xxxxx-xxxxx-xxxxx-xxxxx"
+
+          expect{bobby.say "313"}
+            .to raise_exception(Connection::Refused)
+        end
       end # context "Speaker#save_to_file"
     end # context "Going to be tested in valid context"
   end # describe YandexSpeechApi
