@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API)
 [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API)
 [![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API)
-[![Dependency Status](https://gemnasium.com/badges/github.com/Medvedu/Yandex-Speech-API.svg)](https://gemnasium.com/github.com/Medvedu/Yandex-Speech-API)
 
 ## Описание
 
