@@ -2,8 +2,8 @@
 .idea/
 *.gem
 
-!/spec/tmp/.gitkeep
 /spec/tmp/*
+!/spec/tmp/.gitkeep
 /samples/*.mp3
 
 # Do not share your secret key!
