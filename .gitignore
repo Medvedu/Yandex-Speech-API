@@ -2,6 +2,7 @@
 .idea/
 *.gem
 
+!/spec/tmp/.gitkeep
 /spec/tmp/*
 /samples/*.mp3
 

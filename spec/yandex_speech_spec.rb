@@ -15,7 +15,8 @@ module YandexSpeechApi
       end
 
       after :each do
-        Pathname.new(TEMP_PATH).children.each(&:unlink)
+        Pathname.new(TEMP_PATH).children.reject { |c| c.basename.to_s == '.gitkeep' }
+                                        .each(&:unlink)
       end
 
       context "Speaker#save_to_file" do
