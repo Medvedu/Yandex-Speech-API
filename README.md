@@ -1,9 +1,4 @@
-# YandexSpeechApi
-
-[![Gem Version](https://badge.fury.io/rb/yandex_speech_api.svg)](https://badge.fury.io/rb/yandex_speech_api)
-[![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API)
-[![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API)
-[![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API)
+# YandexSpeechApi [![Gem Version](https://badge.fury.io/rb/yandex_speech_api.svg)](https://badge.fury.io/rb/yandex_speech_api) [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API) [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API) [![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API) [![Coverage Status](https://coveralls.io/repos/github/Medvedu/Yandex-Speech-API/badge.svg)](https://coveralls.io/github/Medvedu/Yandex-Speech-API)
 
 ## Описание
 
