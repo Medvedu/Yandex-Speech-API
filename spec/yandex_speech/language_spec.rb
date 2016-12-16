@@ -15,20 +15,20 @@ module YandexSpeechApi
           .to raise_exception described_class::UnknownLanguageError
       end
 
-      it "creates object instance when emotion param is symbol" do
-        expect(described_class.init :ukrain)
+      it 'creates object instance when emotion param is symbol' do
+        expect(described_class.init(:ukrain))
           .to be_instance_of described_class::Ukrain
       end
 
-      it "creates object instance when emotion param is string" do
-        expect(described_class.init "Ukrain")
+      it 'creates object instance when emotion param is string' do
+        expect(described_class.init('Ukrain'))
           .to be_instance_of described_class::Ukrain
       end
     end # context #init
 
     context '#new' do
-      it "raises an exception when private constructor has been called" do
-        expect{described_class.new :russian}.to raise_exception NoMethodError
+      it 'raises an exception when private constructor has been called' do
+        expect { described_class.new :russian }.to raise_exception NoMethodError
       end
     end # context #new
 
@@ -47,7 +47,7 @@ module YandexSpeechApi
 
     context '#code' do
       it 'raises an exception when method called for +Language+ class' do
-        expect{described_class.build.code}
+        expect { described_class.build.code }
           .to raise_exception described_class::AbstractClassCreationError
       end
 

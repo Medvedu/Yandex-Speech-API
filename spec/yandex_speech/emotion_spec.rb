@@ -15,17 +15,17 @@ module YandexSpeechApi
           .to raise_exception described_class::EmotionNotAllowed
       end
 
-      it "creates object instance when emotion param is symbol" do
-        expect(described_class.new :good)
+      it 'creates object instance when emotion param is symbol' do
+        expect(described_class.new(:good))
           .to be_instance_of Emotion
       end
 
-      it "creates object instance when emotion param is string" do
-        expect(described_class.new 'GOOD')
+      it 'creates object instance when emotion param is string' do
+        expect(described_class.new('GOOD'))
           .to be_instance_of Emotion
       end
 
-      it "creates :good emotion without any exception" do
+      it 'creates :good emotion without any exception' do
         expect { described_class.new :good }.to_not raise_exception
       end
     end # context #new

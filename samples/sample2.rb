@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-require_relative '../lib/yandex_speech'
-#require 'yandex_speech'
+# require_relative '../lib/yandex_speech'
+require 'yandex_speech'
 
 YandexSpeechApi::Key.global_key = File.open('secret key/key').readline.strip
 

@@ -26,7 +26,7 @@ module YandexSpeechApi
     private
 
     def emotion_known?(emotion)
-      self.class.list.include? emotion
+      Emotion.list.include? emotion
     end
 
     ##

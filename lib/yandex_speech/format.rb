@@ -25,7 +25,7 @@ module YandexSpeechApi
     private
 
     def format_known?(format)
-      self.class.list.include? format
+      Format.list.include? format
     end
 
     ##

@@ -11,7 +11,6 @@ module YandexSpeechApi
 
   class MP3_Player
     class << self
-
       ##
       # Creates MP3 player instance. Depends from OS.
       #
@@ -150,7 +149,7 @@ module YandexSpeechApi
     # used.
 
     class UnknownOsError < StandardError
-      def initialize; super "#{self.class}#recognize_operation_system cannot recognize your operation system!" end; end
+      def initialize; super "#{self.class}#recognize_operation_system cannot recognize your operation system!"; end; end
 
     ##
     # Raised when someone tries to call constructor for abstract

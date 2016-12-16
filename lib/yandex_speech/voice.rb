@@ -32,13 +32,15 @@ module YandexSpeechApi
     private
 
     def voice_known?(name)
-      self.class.list.include? name
+      Voice.list.include? name
     end
 
     ##
     # Raised when unknown voice was selected.
 
     class VoiceNotAllowed < StandardError
-      def initialize(voice); super "Voice '#{voice}' not allowed for usage. To see list of allowed voices use Voice#list" end; end
+      def initialize(voice)
+        super "Voice '#{voice}' not allowed for usage. To see list of allowed voices use Voice#list"
+      end; end
   end # class Voice
 end # module YandexSpeechApi
