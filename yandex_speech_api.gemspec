@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.summary     = 'Text to speech translation'
   s.description = 'Text to speech translation. Supports next languages: english, turkey, ukrain, russian. Supports speaker, emotion, speech speed selection. Based on Yandex Speech API (about technology: https://tech.yandex.ru/speechkit/).'
 
-  s.add_dependency 'rest-client', '~> 2.0.0'
+  s.add_dependency 'rest-client', '~> 2.0', '>= 2.0.0'
 end
