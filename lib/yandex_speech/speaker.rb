@@ -5,10 +5,10 @@ module YandexSpeechApi
     private
 
     #
-    # @param [Proc] callback used to send object state throw block.
+    # @param [Proc] callback
+    #   Used to set object attributes throw {do...end} block.
     #
-    # @sample Block syntax
-    #
+    # @example Block syntax
     #   key = 'Your secret key'#
     #   message = "one two three. one two three. one two three four."
     #
@@ -19,11 +19,10 @@ module YandexSpeechApi
     #     s.speed    = :slow
     #     s.emotion  = :good
     #   end
-    #
     #   speaker.say message
     #
-    # @return [Speaker] object instance
-    #
+    # @return [Speaker]
+
     def initialize(settings, &callback)
       yield self if block_given?
 
@@ -38,11 +37,13 @@ module YandexSpeechApi
     ##
     # Prepares and sends request on Yandex Servers.
     #
-    # @param [String] text something that should been said.
-    # @param [Hash] params overrides object state (only for _this_ request)
+    # @param [String] text
+    #   Something that should been said.
+    # @param [Hash] params
+    #   Overrides object settings (only for this request)
     #
-    # @return [Array] memoized binary file.
-    #
+    # @return [RestClient::Response]
+
     def request(text, params = {})
       tmp_params = generate_params_for_request text, params
       Connection.send tmp_params
@@ -54,18 +55,18 @@ module YandexSpeechApi
     # @param [String] text
     #
     # @param [Hash] params ({})
-    # @option [Format]   :format   (nil).
-    # @option [Language] :language (nil).
-    # @option [Voice]    :voice    (nil).
-    # @option [Key]      :key      (nil).
-    # @option [Emotion]  :emotion  (nil).
-    # @option [Speed]    :speed    (nil).
+    # @option params [Format]   :format   (nil).
+    # @option params [Language] :language (nil).
+    # @option params [Voice]    :voice    (nil).
+    # @option params [Key]      :key      (nil).
+    # @option params [Emotion]  :emotion  (nil).
+    # @option params [Speed]    :speed    (nil).
     #
     # @exception TextTooBig
-    #   raised when param +text+ too big (>2000 symbols)
+    #   Raised when param +text+ too big (>2000 symbols)
     #
     # @return [Hash]
-    #
+
     def generate_params_for_request(text, params = {})
       tmp_text = text.dup.encode(Encoding::UTF_8, invalid: :replace,
                                  undef: :replace, replace: '')
@@ -85,8 +86,22 @@ module YandexSpeechApi
     end
 
     ##
-    # This is supposed to been raised when user tries to #say too big text.
+    # Generates filename
     #
+    # @return [String]
+
+    def generate_path
+      dir_path = File.join ENV['HOME'], 'downloads'
+
+      Dir.mkdir(dir_path) unless Dir.exist?(dir_path)
+      filename = "yandex_speech_audio_#{Time.now.strftime "%Y-%m-%d_%H-%M-%S"}"
+
+      return File.join(dir_path, filename)
+    end
+
+    ##
+    # Raised when user tries to #say too big text.
+
     class TextTooBig < StandardError
       def initialize; super 'Text message length limited by 2000 symbols per request' end; end
   end # class Speaker

@@ -4,17 +4,14 @@ module YandexSpeechApi
   class Speed
     class << self
 
-      ##
-      # Returns numeric value for selected mode.
-      #
-      # @sample Sample 1
+      # @example #1
       #   list[:slow]      # ==> 0.5
       #
-      # @sample Sample 2
+      # @example #2
       #   list[:wrong_key] # ==> nil
       #
-      # @return [Float, nil]
-      #
+      # @return [Hash]
+
       def modes
         {
           :slowest  => 0.1,  # minimal allowed speed
@@ -26,12 +23,9 @@ module YandexSpeechApi
       end
     end # class << self
 
-    # ----------------------------------------------------
-
-    #
     # @return [Float]
     #   In range [(0.1)..3.0]
-    #
+
     attr_reader :value
 
     def initialize(speed = :standard)
@@ -52,14 +46,14 @@ module YandexSpeechApi
     end
 
     ##
-    # This is supposed to been raised when speed mode is unknown.
-    #
+    # Raised when speed mode is unknown.
+
     class SpeedModeNotAllowed < StandardError
       def initialize(speed); super "Speed '#{speed}' not allowed for usage. To see list of allowed formats use Emotion#list." end; end
 
     ##
-    # This is supposed to been raised when +speed+ param is not in [(0.1)..3] range.
-    #
+    # Raised when +speed+ param is not in [(0.1)..3] range.
+
     class SpeedValueNotInRange < StandardError
       def initialize(value); super "Speed value '#{value}' should be from [(0.1)..3] range" end; end
   end # class Speed

@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API)
 [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API)
 [![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API)
+[![Dependency Status](https://gemnasium.com/badges/github.com/Medvedu/Yandex-Speech-API.svg)](https://gemnasium.com/github.com/Medvedu/Yandex-Speech-API)
 
 ## Описание
 
@@ -13,7 +14,7 @@ Wrapper для синтезатора речи, основанного на те
 
 1. Перед использованием необходимо получить ключ разработчика. Подробнее на официальном сайте: https://tech.yandex.ru/speechkit/cloud
 2. Добавьте yandex_speech_api в Gemfile.
-3. bundle install & bundle update 
+3. bundle install 
 4. Добавьте в проект:
 
 ```ruby
@@ -31,9 +32,6 @@ Wrapper для синтезатора речи, основанного на те
 _Для начала работы с api достаточно указать ключ:_
 
 ```ruby
-
-require 'yandex_speech'
-
 key = File.open('secret key/key').readline.strip
 
 speaker = YandexSpeechApi::Speaker.init key: key
@@ -45,9 +43,6 @@ speaker.save_to_file "Не будите спящего кота."
 _Когда это неоходимо, конструктор позволяет переписывать параметры по умолчанию, например, так можно выбрать язык:_
 
 ```ruby
-
-require 'yandex_speech'
-
 YandexSpeechApi::Key.global_key = File.open('secret key/key').readline.strip
 
 message = "Don't trouble trouble until trouble troubles you"
@@ -62,8 +57,6 @@ speaker.say message
 _Также поддерживаются геттеры и сеттеры:_
 
 ```ruby
-require 'yandex_speech'
-
 key = File.open('secret key/key').readline.strip
 
 message = "Як поїдеш в об'їзд, то будеш і на обід, а як навпростець, то увечері."
@@ -82,9 +75,6 @@ speaker.save_to_file message, '~/downloads/sound'
 _И, наконец, установка параметров через блок_
 
 ```ruby
-
-require 'yandex_speech'
-
 key = File.open('secret key/key').readline.strip
 message = "one two three. one two three. one two three four."
 
@@ -107,9 +97,7 @@ speaker.say message
 ## Зависимости
 
 * Ruby 2.0.0 или выше
-
 * rest-client   '>= 2.0.0'
-* addressable   '>= 2.4.0'
 
 ### Linux-специфичные зависимости:
 

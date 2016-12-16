@@ -2,21 +2,19 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   class Format
+
     ##
     # List of allowed formats
     #
     # @return [Array<String>]
-    #
+
     def self.list
       %i(mp3 wav opus)
     end
 
-    # ----------------------------------------------------
-
-    #
     # @return [Symbol]
     #   possible values: :mp3, :wav or :opus
-    #
+
     attr_reader :type
 
     def initialize(format = :mp3)
@@ -31,8 +29,8 @@ module YandexSpeechApi
     end
 
     ##
-    # This is supposed to been raised when unknown format has been selected.
-    #
+    # Raised when unknown format has been selected.
+
     class FormatNotAllowed < StandardError
       def initialize(format); super "Format '#{format}' not allowed for usage. To see list of allowed formats use Format#list" end; end
   end # class Format

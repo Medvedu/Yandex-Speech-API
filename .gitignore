@@ -1,13 +1,10 @@
-
 /Gemfile.lock
+.idea/
 *.gem
 
-#
-# RubyMine project files
-#
-.idea/
+/spec/tmp/*
+/samples/*.mp3
 
-#
 # Do not share your secret key!
-#
 */secret key/key
+

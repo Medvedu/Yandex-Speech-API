@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          =  'yandex_speech_api'
-  s.version       =  '0.9.7'
+  s.version       =  '1.0.0'
   s.date          =  '2016-11-11'
   s.authors       = ['Kuzichev Michael']
   s.license       = 'MIT'
@@ -13,10 +13,8 @@ Gem::Specification.new do |s|
   s.test_files    = Dir['spec/**/*.rb']
   s.require_paths = ['lib']
 
-  s.summary     = 'Text to speech translator'
-  s.description = 'Text to speech translation. It works for next languages: english, turkey, ukrain, russian. Supports speaker selection and much more... Based on Yandex Speech API (about technology: https://tech.yandex.ru/speechkit/).'
+  s.summary     = 'Text to speech translation'
+  s.description = 'Text to speech translation. Supports next languages: english, turkey, ukrain, russian. Supports speaker, emotion, speech speed selection. Based on Yandex Speech API (about technology: https://tech.yandex.ru/speechkit/).'
 
-  s.add_dependency 'rake',        '~> 10.4.2'
   s.add_dependency 'rest-client', '~> 2.0.0'
-  s.add_dependency 'addressable', '~> 2.4.0'
 end

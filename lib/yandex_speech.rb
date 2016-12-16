@@ -3,62 +3,78 @@
 #
 # Wrapper for Yandex Speech API (https://tech.yandex.ru/speechkit).
 #
+# @see https://github.com/Medvedu/Yandex-Speech-API
+# @see README.md
+#
+# @author Kuzichev Michael
+# @license MIT
 module YandexSpeechApi
   require_relative 'yandex_speech/project_structure'
   #
   # Speaker a class that convert English, Ukrain, Russian or Turkey text to
   # speech. Solution based on Yandex SpeechKit technology.
   #
-  # @example Usage sample.
-  #
-  #   require 'yandex_speech'
-  #
+  # @example Basic usage
   #   key = File.open('secret key/key').readline.strip
   #
   #   speaker = YandexSpeechApi::Speaker.init key: key
   #   speaker.save_to_file "Не будите спящего кота."
   #
-  #
   # @example Hash syntax
-  #
-  #   require 'yandex_speech'
-  #
   #   key = File.open('secret key/key').readline.strip
   #   message = "Don't trouble trouble until trouble troubles you"
   #
   #   speaker = YandexSpeechApi::Speaker.init({ key: key, language: 'english', voice: :zahar, speed: 0.23 })
   #   speaker.say message
   #
-  # @note
+  # @example Block syntax
+  #   key = File.open('secret key/key').readline.strip
+  #   message = "one two three. one two three. one two three four."
   #
-  #   Before usage you should get your key. It is free for non-commercial
-  #   purposes (at least for now).
+  #   speaker = YandexSpeechApi::Speaker.init do |s|
+  #     s.key      = key
+  #     s.voice    = :jane
+  #     s.language = :english
+  #     s.speed    = :slow
+  #     s.emotion  = :good
+  #   end
+  #   speaker.say message
   #
-  #   You can get this key from official site: https://tech.yandex.ru/speechkit
+  # Before usage you need to get an api key. It is free for non-commercial
+  # purposes (at least for now).
   #
-  #   Note: Yandex provide many services throw this site. Your need exactly
-  #   /Yandex SpeechKit Cloud/ key. Other keys will not work!
+  # You can get this key from official site: https://tech.yandex.ru/speechkit
   #
-  #   Do not share your key to third party.
+  # Note: Yandex provide many services throw this site. Your need exactly
+  # +Yandex SpeechKit Cloud+ key. Other keys will not work!
+  #
+  # Do not share this key to third party.
   #
   class Speaker
     class << self
       ##
       # Creates +Speaker+ instance.
       #
-      # @param [Proc] callback used to set object state throw {do ... end} block.
+      # @param [Proc] callback
+      #   Used to set object state throw {do ... end} block.
       #
-      # @param [HASH] settings that you maybe want to override.
+      # @param [HASH] settings
+      #   Overrides default settings.
+      # @option settings [Symbol] :speed (:standard)
+      #   @see Speaker#speed for details.
+      # @option settings [Symbol] :voice (:alyss)
+      #   @see Speaker#voice for details.
+      # @option settings [Symbol] :emotion (:neutral)
+      #   @see Speaker#emotion for details.
+      # @option settings [Symbol] :language (:russian)
+      #   @see Speaker#language for details.
+      # @option settings [Symbol] :format (:mp3)
+      #   @see Speaker#format for details.
+      # @option settings [Symbol] :key (:unknown)
+      #   @see Speaker#key for details.
       #
-      # @option settings [Symbol] :speed (:standard) see Speaker#speed for details.
-      # @option settings [Symbol] :voice (:alyss) see Speaker#voice for details.
-      # @option settings [Symbol] :emotion (:neutral) see Speaker#emotion for details.
-      # @option settings [Symbol] :language (:russian) Speaker#language for details.
-      # @option settings [Symbol] :format (:mp3) Speaker#format for details.
-      # @option settings [Symbol] :key (:unknown) Speaker#key for details.
-      #
-      # @return [YandexSpeech] the speaker object.
-      #
+      # @return [YandexSpeech]
+
       def init(settings = {}, &callback)
         new default_settings.merge(settings), &callback
       end
@@ -67,7 +83,7 @@ module YandexSpeechApi
       # Default settings.
       #
       # @return [Hash]
-      #
+
       def default_settings
         {
           key:           :unknown,
@@ -79,89 +95,85 @@ module YandexSpeechApi
         }
       end
     end # class << self
-
-    private_class_method :new
     private_class_method :default_settings
 
-    #
-    # ---------- S P E A K E R instance methods ----------
-    #
+    private_class_method :new
 
     ##
     # Determines dictor speech speed.
     #
-    # @setter #speed=(other)
-    #   @param [Symbol, Integer, Float] other
-    #   Expecting values are
-    #     :slowest, :slow, :standard, :fast, :fastest
-    #   or any Integer/Float from 1..3 range.
-    #
-    # @return [Speed] speed object
-    #
+    # @return [Speed]
+
     attr_reader :speed
 
     ##
     # Preferred dictor voice.
     #
-    #  female voices: 'jane',  'oksana', 'alyss', 'omazh'
-    #  male voice:    'zahar', 'ermil'
-    #
-    # @setter #voice=(other)
-    #   @param [Symbol] other
-    #   Expecting values are
-    #     :jane, :oksana, :alyss, :omazh, :zahar, :ermil
-    #
-    # @return [Voice] voice object.
-    #
+    # @return [Voice]
+
     attr_reader :voice
 
     ##
     # How emotional dictor should speak.
     #
-    # @setter #emotion=(other)
-    #   @param [Symbol] other
-    #   Expecting values are
-    #     :good, :evil, :neutral
-    #
-    # @return [Emotion] emotion object.
-    #
+    # @return [Emotion]
+
     attr_reader :emotion
 
     ##
     # Speaker language.
     #
-    # @setter #language=(other)
-    #   @param [Symbol] other
-    #   Expecting values are
-    #     :russian, :english, :ukrain, :turkey
+    #   Speaker with +russian+ language can't translate, or even synthesize
+    #   +english+ text (actually it can, but official documentation strongly
+    #   recommend to select right language for incoming text)
     #
-    # @note speaker with +russian+ language can't translate, or even synthesize
-    # +english+ text (actually it can, but official documentation strongly
-    # recommend to select right language for a text)
-    #
-    # @return [Language] language object.
-    #
+    # @return [Language]
+
     attr_reader :language
 
     ##
     # How remote server should decode audio data for us.
     #
-    # @setter #format=(other)
-    #   @param [Symbol] other
-    #   Expecting values are
-    #     :mp3, :wav, :opus
+    #   Do not use +:wav+ format for large texts. Result audio file will be
+    #   too big, and service truncates resulted file.
     #
-    # @note do not use +:wav+ format for large texts. Result audio file will be
-    # soo big and Yandex truncates those texts.
-    #
-    # @return [Format] format object.
-    #
+    # @return [Format]
+
     attr_reader :format
 
-    #
-    # Runtime defines setters for +@voice+, +@language+,+@format+, +@emotion+,
+    ##
+    # Defines setters for +@voice+, +@language+,+@format+, +@emotion+,
     # +@speed+, +@key+ attributes.
     #
+    # @setter #speed=(other)
+    #   @param [Symbol, Integer, Float] other
+    #     Expecting values are
+    #       :slowest, :slow, :standard, :fast, :fastest
+    #       or any Integer/Float from (0.1)..3 range.
+    #
+    # @setter #voice=(other)
+    #   @param [Symbol] other
+    #     Expecting values are
+    #       :jane, :oksana, :alyss, :omazh, :zahar, :ermil
+    #
+    # @setter #emotion=(other)
+    #   @param [Symbol] other
+    #     Expecting values are
+    #       :good, :evil, :neutral
+    #
+    # @setter #language=(other)
+    #   @param [Symbol] other
+    #     Expecting values are
+    #       :russian, :english, :ukrain, :turkey
+    #
+    # @setter #format=(other)
+    #   @param [Symbol] other
+    #     Expecting values are
+    #       :mp3, :wav, :opus
+    #
+    # @setter #key=(new_key)
+    #   @param [String] new_key
+
     %i(voice language format emotion speed key).each do |symbol|
       define_method "#{symbol}=" do |other|
         method_name = __method__.to_s.chop
@@ -179,15 +191,30 @@ module YandexSpeechApi
     ##
     # Speeches text.
     #
-    # @param [String] text something that should been said.
+    # @example #Say usage
+    #   key = File.open('secret key/key').readline.strip
+    #   message = "one two three. one two three. one two three four."
     #
-    # @return: You hear the voice. o_0
+    #   speaker = YandexSpeechApi::Speaker.init do |s|
+    #     s.key      = key
+    #     s.voice    = :jane
+    #     s.language = :english
+    #     s.speed    = :slow
+    #     s.emotion  = :good
+    #   end
+    #   speaker.say message
     #
+    # @param [String] text
+    #   Something that should been said.
+    #
+    # @return [NilClass]
+    #   You hear the sound.
+
     def say(text)
       format = Format.new :mp3
       binary_data = request text, format: format
 
-      file = Tempfile.new ['yandex_speech_temp_file', '.mp3']
+      file = Tempfile.new ['yandex_speech_temp_file', ".#{format.type}"]
       file.write binary_data
 
       player = MP3_Player.init
@@ -198,20 +225,33 @@ module YandexSpeechApi
     end
 
     ##
-    # Saves synthesized voice to file.
+    # Saves synthesized voice to audio-file.
     #
-    # @param [String] text something that should been said.
-    # @param [String] filename ('temporary') path to file (without file extension)
+    # If +path_to_file+ is empty it saves audio-file to '~/downloads'
     #
-    # @return [String] absolute path to created file.
+    # @example #save_to_file usage
+    #   key = File.open('secret key/key').readline.strip
     #
-    def save_to_file(text, filename = 'temporary')
+    #   speaker = YandexSpeechApi::Speaker.init key: key
+    #   speaker.save_to_file "Не будите спящего кота.", 'let_cat_sleep'
+    #
+    # @param [String] text
+    #   Something that should been said.
+    #
+    # @param [String] path_to_file ('~/downloads')
+    #   Path to new file (without file extension).
+    #
+    # @return [String]
+    #   Absolute path to created file.
+
+    def save_to_file(text, path_to_file = '')
+      path_to_file = generate_path if path_to_file.empty?
+
       binary_data = request text
+      absolute_path = "#{File.expand_path(path_to_file)}.#{format.type}"
+      File.open(absolute_path, 'w') { |f| f.write binary_data }
 
-      full_path = "#{File.expand_path(filename)}.#{format.type}"
-      File.open(full_path, 'w') { |f| f.write binary_data }
-
-      full_path.to_s
+      return absolute_path
     end
 
     private
@@ -220,13 +260,10 @@ module YandexSpeechApi
     # Yandex Speech ApiKey.
     #
     # Key is not something that should be shared with any other class. Setter
-    # method still available to call from public zone thought.
+    # method is public anyway.
     #
-    # @setter #key=(new_key)
-    #   @param [String] new_key
-    #
-    # @return [Key] key object.
-    #
+    # @return [Key]
+
     attr_reader :key
   end # class Speaker
 end # module YandexSpeechApi

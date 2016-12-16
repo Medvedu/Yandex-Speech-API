@@ -10,18 +10,16 @@ module YandexSpeechApi
   require 'addressable'
 
   # project structure
-  class << self
-    private
 
-    ##
-    # loads *.rb in requested order
-    #
-    def self.load(**params)
-      params[:files].each do |f|
-        require File.join(__dir__, params[:folder].to_s, f)
-      end
+  ##
+  # loads *.rb files in requested order
+
+  def self.load(**params)
+    params[:files].each do |f|
+      require File.join(__dir__, params[:folder].to_s, f)
     end
+  end
+  private_class_method :load
 
-    load files: %w(mp3_player key language format voice emotion speed connection speaker)
-  end # class << self
+  load files: %w(mp3_player key language format voice emotion speed connection speaker)
 end # module YandexSpeechApi
