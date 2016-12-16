@@ -6,7 +6,6 @@ module YandexSpeechApi
 
   # dependencies from rubygems.org
   require 'rest-client'
-  require 'addressable'
 
   # project structure
 
