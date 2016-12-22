@@ -48,6 +48,5 @@ module YandexSpeechApi
 
       return nil # search unsuccessful
     end
-
   end # module Helpers
 end # module YandexSpeechApi

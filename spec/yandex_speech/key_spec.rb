@@ -48,13 +48,10 @@ module YandexSpeechApi
         described_class.global_key = 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx'
 
         key = described_class.new :unknown
-        expect { key.get }.to_not raise_error
-
         key2 = described_class.new 'test key'
-        expect { key2.get }.to_not raise_error
 
-        key3 = described_class.new :unknown
-        expect { key3.get }.to_not raise_error
+        expect { key.get }.to_not raise_error
+        expect { key2.get }.to_not raise_error
       end
     end # context #get
   end # describe Key
