@@ -9,13 +9,7 @@ module YandexSpeechApi
     end
 
     context '#global_key=(other)' do
-      it 'raises an exception +other+ param is not present #1' do
-        key = described_class.new
-        expect { described_class.global_key = key }
-          .to raise_error Key::InvalidGlobalKey
-      end
-
-      it 'raises an exception +other+ param is not present #2' do
+      it 'raises an exception +other+ param is not present' do
         key = described_class.new :unknown
         expect { described_class.global_key = key }
           .to raise_error Key::InvalidGlobalKey
@@ -35,7 +29,7 @@ module YandexSpeechApi
 
     context '#get' do
       it 'raises an exception for not defined (instance or global) key' do
-        key = described_class.new
+        key = described_class.new :unknown
         expect { key.get }.to raise_error Key::KeyNotDefined
       end
 
@@ -46,20 +40,20 @@ module YandexSpeechApi
 
       it 'not raises an exception when global key defined' do
         described_class.global_key = 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx'
-        key = described_class.new
+        key = described_class.new :unknown
         expect { key.get }.to_not raise_error
       end
 
       it 'not raises an exception for any key instance when global key defined' do
         described_class.global_key = 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx'
 
-        key = described_class.new
+        key = described_class.new :unknown
         expect { key.get }.to_not raise_error
 
         key2 = described_class.new 'test key'
         expect { key2.get }.to_not raise_error
 
-        key3 = described_class.new
+        key3 = described_class.new :unknown
         expect { key3.get }.to_not raise_error
       end
     end # context #get

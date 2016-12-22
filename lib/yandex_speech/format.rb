@@ -17,8 +17,9 @@ module YandexSpeechApi
 
     attr_reader :type
 
-    def initialize(format = :mp3)
+    def initialize(format)
       @type = format.downcase.to_sym
+
       raise FormatNotAllowed, format unless format_known? @type
     end
 
@@ -31,7 +32,7 @@ module YandexSpeechApi
     ##
     # Raised when unknown format has been selected.
 
-    class FormatNotAllowed < StandardError
+    class FormatNotAllowed < YandexSpeechError
       def initialize(format); super "Format '#{format}' not allowed for usage. To see list of allowed formats use Format#list" end; end
   end # class Format
 end # module YandexSpeechApi

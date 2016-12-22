@@ -3,9 +3,13 @@
 module YandexSpeechApi
   # dependencies from core lib
   require 'rbconfig'
+  require 'uri'
+  require 'net/http'
 
-  # dependencies from rubygems.org
-  require 'rest-client'
+  ##
+  # Core class for all exceptions that can be raised in YandexSpeechApi lib..
+
+  class YandexSpeechError < StandardError; end
 
   # project structure
 
@@ -19,5 +23,5 @@ module YandexSpeechApi
   end
   private_class_method :load
 
-  load files: %w(mp3_player key language format voice emotion speed connection speaker)
+  load files: %w(helpers mp3_player key language format voice emotion speed connection speaker)
 end # module YandexSpeechApi

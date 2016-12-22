@@ -1,123 +1,59 @@
 # encoding: utf-8
 # frozen_string_literal: true
 module YandexSpeechApi
-  #
-  # @example #1
-  #   Language.init 'Turkey' ==> instance of Language::Turkey
-  #
-  # @example #2
-  #   Language.init :russian ==> instance of Language::Russian
-  #
-  # @example #3
-  #   Language.init 'ops' ==> UnknownLanguageError exception
-  #
-  class Language
-    class << self
-
-      ##
-      # Determines class by +language+ param and creates instance for
-      # that class.
-      #
-      # @exception UnknownLanguageError
-      #   raised when language is unknown.
-      #
-      # @return [Russian, English, Turkey, Ukrain]
-
-      def init(language = :english)
-        klass = const_get language.capitalize.to_sym
-        klass.build
-      rescue NameError
-        raise UnknownLanguageError, language
-      end
-
-      ##
-      # Language object constructor.
-      #
-      # @exception AbstractClassCreationError
-      #   raised when Language#build called
-      #
-      # @return [Russian, English, Turkey, Ukrain]
-
-      def build
-        if to_s.split('::').last == 'Language'
-          raise AbstractClassCreationError
-        else
-          new
-        end
-      end
-
-      ##
-      # List of allowed languages
-      #
-      # @return [Array<Classes>]
-
-      def list
-        @cached_list ||=
-          constants.select { |name| const_get(name).class === Class }
-                   .reject { |name| name =~ /Error/ }
-      end
-    end # class << self
-
-    private_class_method :new
+  class Language # no-doc
 
     ##
-    # Pretty format.
+    # List of allowed languages
+    #
+    # @return [Array<Classes>]
 
-    def to_s
-      self.class.to_s.split('::').last
+    def self.allowed_languages
+      @cached_list ||= Array(codes.keys)
     end
 
-    ##
-    # Abstract. Override this in child.
-    #
-    # @example #1
-    #   lang = Language.init('Turkey')
-    #   lang.code # ==> 'tr-TR'
-    #
+    def self.codes # no-doc
+      {
+        english: 'en-US',
+        russian: 'ru‑RU',
+        turkey:  'tr-TR',
+        ukrain:  'uk-UK',
+      }
+    end
+
+    # @return [Symbol]
+
+    attr_reader :language
+
     # @return [String]
 
     def code
-      raise 'abstract method called'
+      @code ||= Language.codes[@language]
     end
 
-    private
-
     ##
-    # Raised when someone called constructor for abstract +Language+ class.
+    # Creates new object instance.
+    #
+    # @param [String] language
+    #   Selected language.
+    #
+    # @exception UnknownLanguageError
+    #   Raised when language is unknown
+    #
+    # @return [Language]
 
-    class AbstractClassCreationError < StandardError
-      def initialize; super "You are not allowed to call constructor for 'Language' class!" end; end
+    def initialize(language)
+      @language = language.downcase.to_sym
+
+      unless Language.allowed_languages.include? @language
+        raise UnknownLanguageError, @language
+      end
+    end
 
     ##
     # Raised when unknown language has been selected.
 
-    class UnknownLanguageError < StandardError
-      def initialize(lang); super "Unknown language selected: '#{lang}'. See Language#list for list of allowed languages" end; end
+    class UnknownLanguageError < YandexSpeechError
+      def initialize(lang); super "Unknown language selected: '#{lang}'. See Language#allowed_languages for list of allowed languages" end; end
   end # class Language
-
-  # ----------------- add languages here ---------------
-
-  class Language::Russian < Language
-    def code
-      'ru‑RU'
-    end
-  end # class Language::Russian
-
-  class Language::English < Language
-    def code
-      'en-US'
-    end
-  end # class Language::English
-
-  class Language::Turkey < Language
-    def code
-      'tr-TR'
-    end
-  end # class Language::Turkey
-
-  class Language::Ukrain < Language
-    def code
-      'uk-UK'
-    end
-  end # class Language::Ukrain
 end # module YandexSpeechApi

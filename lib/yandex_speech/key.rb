@@ -14,14 +14,13 @@ module YandexSpeechApi
 
       def global_key=(new_key)
         key_tmp = new_key.is_a?(Key) ? new_key : Key.new(new_key)
-
         raise InvalidGlobalKey, key_tmp unless key_tmp.present?
         @global_key = key_tmp
       end
 
       ##
       # @return [TrueClass, FalseClass]
-      #   true if global key set, otherwise return false.
+      #   True if global key set, otherwise returns false.
 
       def global_key?
         !!global_key
@@ -37,7 +36,7 @@ module YandexSpeechApi
       end
     end # class << self
 
-    def initialize(key = :unknown)
+    def initialize(key)
       @instance_key = key
     end
 
@@ -95,13 +94,13 @@ module YandexSpeechApi
     ##
     # Raised when user tries to call #say method without key.
 
-    class KeyNotDefined < StandardError
+    class KeyNotDefined < YandexSpeechError
       def initialize; super "WARNING! You initialized Speaker class without key! It means you can not use YandexSpeechApi service. You can get your key there: https://tech.yandex.ru/speechkit" end; end
 
     ##
     # Raised when global key going to be set with default values.
 
-    class InvalidGlobalKey < StandardError
+    class InvalidGlobalKey < YandexSpeechError
       def initialize(key); super "Global key '#{key}' can not been nil or :unknown" end; end
   end # class Key
 end # module YandexSpeechApi

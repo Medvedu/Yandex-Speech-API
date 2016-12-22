@@ -16,30 +16,26 @@ module YandexSpeechApi
       # @option params [Float]  :speed
       # @option params [String, Symbol] :key
       #
-      # @exceptions
-      #   @see Connection#with_exception_control
+      # @exception ConnectionError
+      #   Raised when responce is not successful.
       #
-      # @return [RestClient::Response]
+      # @return [String]
+      #   Binary data.
 
       def send(**params)
-        with_exception_control do
-          return RestClient.get URL, params: params
+        uri = URI.parse URL
+        uri.query = URI.encode_www_form params
+        response = Net::HTTP.get_response uri
+
+        case response
+        when Net::HTTPSuccess
+          return response.body
+        else
+          raise ConnectionError.new response.code, response.message
         end
       end
 
       private
-
-      ##
-      # Holds exceptions for Connection#send.
-      #
-      # @exception RestClient::Exception
-      #   Raised when request is unsuccessful.
-
-      def with_exception_control
-        yield
-      rescue RestClient::Exception => exception
-        raise Refused, exception
-      end
 
       ##
       # YandexAPI endpoint.
@@ -48,9 +44,9 @@ module YandexSpeechApi
     end # class << self
 
     ##
-    # Raised when RestClient::Exception failed for some reason.
+    # Raised when connection failed.
 
-    class Refused < StandardError
-      def initialize(exception); super "Connection refused by remote server. Error Code: '#{exception.http_code}'. exception message: '#{exception.message}'." end; end
+    class ConnectionError < YandexSpeechError
+      def initialize(code, message); super "Connection refused by remote server. Error code: '#{code}', Exception message: '#{message}'." end; end
   end # module Connection
 end # module YandexSpeechApi

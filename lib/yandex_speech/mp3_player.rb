@@ -10,6 +10,7 @@ module YandexSpeechApi
   #   player.play filename
 
   class MP3_Player
+
     class << self
       ##
       # Creates MP3 player instance. Depends from OS.
@@ -21,7 +22,7 @@ module YandexSpeechApi
 
       def init
         @player ||=
-          case recognize_operation_system
+          case Helpers::recognize_operation_system
           when :linux
             Linux_MP3_Player.build
           when :mac_os
@@ -55,35 +56,9 @@ module YandexSpeechApi
       # @return [Linux_MP3_Player, Mac_MP3_Player]
 
       attr_reader :player
-
-      ##
-      # From what OS we launched?
-      #
-      # @example #1
-      #   recognize_operation_system # ==> :linux
-      #
-      # @example #2
-      #   recognize_operation_system # ==> :unknown
-      #
-      # @return [Symbol]
-      #   OS name
-
-      def recognize_operation_system
-        case RbConfig::CONFIG['host_os']
-        when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-          :windows
-        when /darwin|mac os/
-          :mac_os
-        when /linux/
-          :linux
-        else
-          :unknown
-        end
-      end
     end # class << self
 
     private_class_method :new
-    private_class_method :recognize_operation_system
 
     ##
     # Plays the sound
@@ -141,27 +116,27 @@ module YandexSpeechApi
     # Raised when +filename+ has wrong (not mp3) extension. Used to give
     # minimal protection against files with unknown format.
 
-    class WrongFileExtension < StandardError
+    class WrongFileExtension < YandexSpeechError
       def initialize(filename); super "Mp3 player can work only with files with '.mp3' extension. Please change extension for #{filename} if you sure that format is correct!'" end; end
 
     ##
     # Raised when MP3_Player#init can not recognize what operation system is
     # used.
 
-    class UnknownOsError < StandardError
+    class UnknownOsError < YandexSpeechError
       def initialize; super "#{self.class}#recognize_operation_system cannot recognize your operation system!"; end; end
 
     ##
     # Raised when someone tries to call constructor for abstract
     # +MP3_Player+ class.
 
-    class AbstractClassCreationError < StandardError
+    class AbstractClassCreationError < YandexSpeechError
       def initialize; super "You are not allowed to call constructor for 'MP3_Player' class!" end; end
 
     ##
     # Raised when child class tries to call not implemented method.
 
-    class MethodNotImplementedError < StandardError
+    class MethodNotImplementedError < YandexSpeechError
       def initialize(klass, method_name); super "Class '#{klass}' called not implemented method: '##{method_name}'." end; end
   end # class MP3_Player
 
@@ -176,8 +151,7 @@ module YandexSpeechApi
     # raises an exception unless +mpg123+ installed.
 
     def validate_requirements
-      output = `type 'mpg123'`
-      raise LinuxNotInstalled, 'mpq123' if output.length.zero?
+      raise LinuxNotInstalled, 'mpq123' unless Helpers::find_executable 'mpg123'
     end
 
     ##
@@ -190,7 +164,7 @@ module YandexSpeechApi
     ##
     # Raised when necessary linux program not found.
 
-    class LinuxNotInstalled < StandardError
+    class LinuxNotInstalled < YandexSpeechError
       def initialize(name); super "Program '#{name}' not found!" end; end
   end # class MP3_Player::Linux_MP3_Player
 

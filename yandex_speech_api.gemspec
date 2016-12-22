@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          =  'yandex_speech_api'
-  s.version       =  '1.0.1b'
+  s.version       =  '1.0.3'
   s.date          =  '2016-11-11'
   s.authors       = ['Kuzichev Michael']
   s.license       = 'MIT'
@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0'
 
-  s.add_dependency 'rest-client', '~> 2.0', '>= 2.0.0'
+  s.requirements << 'mpg123'
 end

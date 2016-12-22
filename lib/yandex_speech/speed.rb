@@ -28,7 +28,7 @@ module YandexSpeechApi
 
     attr_reader :value
 
-    def initialize(speed = :standard)
+    def initialize(speed)
       @value = if speed.is_a? Numeric
                  speed.round 2
                else
@@ -48,13 +48,13 @@ module YandexSpeechApi
     ##
     # Raised when speed mode is unknown.
 
-    class SpeedModeNotAllowed < StandardError
+    class SpeedModeNotAllowed < YandexSpeechError
       def initialize(speed); super "Speed '#{speed}' not allowed for usage. To see list of allowed formats use Emotion#list." end; end
 
     ##
     # Raised when +speed+ param is not in [(0.1)..3] range.
 
-    class SpeedValueNotInRange < StandardError
+    class SpeedValueNotInRange < YandexSpeechError
       def initialize(value); super "Speed value '#{value}' should be from [(0.1)..3] range" end; end
   end # class Speed
 end # module YandexSpeechApi

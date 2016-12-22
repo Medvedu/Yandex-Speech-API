@@ -66,7 +66,7 @@ module YandexSpeechApi
       #   @see Speaker#voice for details.
       # @option settings [Symbol] :emotion (:neutral)
       #   @see Speaker#emotion for details.
-      # @option settings [Symbol] :language (:russian)
+      # @option settings [Symbol] :language (:english)
       #   @see Speaker#language for details.
       # @option settings [Symbol] :format (:mp3)
       #   @see Speaker#format for details.
@@ -76,26 +76,9 @@ module YandexSpeechApi
       # @return [YandexSpeech]
 
       def init(settings = {}, &callback)
-        new default_settings.merge(settings), &callback
-      end
-
-      ##
-      # Default settings.
-      #
-      # @return [Hash]
-
-      def default_settings
-        {
-          key:           :unknown,
-          language:      :russian,
-          emotion:       :neutral,
-          voice:         :alyss,
-          format:        :mp3,
-          speed:         :standard
-        }
+        new settings, &callback
       end
     end # class << self
-    private_class_method :default_settings
 
     private_class_method :new
 
@@ -182,7 +165,7 @@ module YandexSpeechApi
           if other.is_a? klass
             other
           else
-            klass.respond_to?(:init) ? klass.init(other) : klass.new(other)
+            klass.new(other)
           end
         instance_variable_set "@#{method_name}", variable
       end

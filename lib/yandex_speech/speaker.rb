@@ -26,12 +26,12 @@ module YandexSpeechApi
     def initialize(settings, &callback)
       yield self if block_given?
 
-      @key      ||= Key.new settings[:key]
-      @voice    ||= Voice.new settings[:voice]
-      @speed    ||= Speed.new settings[:speed]
-      @emotion  ||= Emotion.new settings[:emotion]
-      @language ||= Language.init settings[:language]
-      @format   ||= Format.new settings[:format]
+      @key      ||= Key.new      settings[:key]       || :unknown
+      @voice    ||= Voice.new    settings[:voice]     || :jane
+      @speed    ||= Speed.new    settings[:speed]     || :standard
+      @emotion  ||= Emotion.new  settings[:emotion]   || :neutral
+      @language ||= Language.new settings[:language]  || :english
+      @format   ||= Format.new   settings[:format]    || :mp3
     end
 
     ##
@@ -42,7 +42,7 @@ module YandexSpeechApi
     # @param [Hash] params
     #   Overrides object settings (only for this request)
     #
-    # @return [RestClient::Response]
+    # @return [String]
 
     def request(text, params = {})
       tmp_params = generate_params_for_request text, params
@@ -85,12 +85,7 @@ module YandexSpeechApi
       return tmp
     end
 
-    ##
-    # Generates filename
-    #
-    # @return [String]
-
-    def generate_path
+    def generate_path # no-doc
       dir_path = File.join ENV['HOME'], 'downloads'
 
       Dir.mkdir(dir_path) unless Dir.exist?(dir_path)
@@ -102,7 +97,7 @@ module YandexSpeechApi
     ##
     # Raised when user tries to #say too big text.
 
-    class TextTooBig < StandardError
+    class TextTooBig < YandexSpeechError
       def initialize; super 'Text message length limited by 2000 symbols per request' end; end
   end # class Speaker
 end # module YandexSpeechApi

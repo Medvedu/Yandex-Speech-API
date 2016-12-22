@@ -5,11 +5,6 @@ require 'spec_helper'
 module YandexSpeechApi
   describe Speed do
     context '#new' do
-      it 'creates instance with :standard value by default' do
-        speed_instance = described_class.new
-        expect(speed_instance.value).to_not be_nil
-      end
-
       it 'raises an exception for unknown speed mode' do
         expect { described_class.new :lol }
           .to raise_exception described_class::SpeedModeNotAllowed

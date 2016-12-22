@@ -24,7 +24,7 @@ module YandexSpeechApi
 
     attr_reader :name
 
-    def initialize(voice = :jane)
+    def initialize(voice)
       @name = voice.downcase.to_sym
       raise VoiceNotAllowed, voice unless voice_known? @name
     end
@@ -38,7 +38,7 @@ module YandexSpeechApi
     ##
     # Raised when unknown voice was selected.
 
-    class VoiceNotAllowed < StandardError
+    class VoiceNotAllowed < YandexSpeechError
       def initialize(voice)
         super "Voice '#{voice}' not allowed for usage. To see list of allowed voices use Voice#list" end; end
   end # class Voice

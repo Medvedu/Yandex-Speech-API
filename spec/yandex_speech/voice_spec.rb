@@ -5,11 +5,6 @@ require 'spec_helper'
 module YandexSpeechApi
   describe Voice do
     context '#new' do
-      it 'creates instance with Jane voice by default' do
-        voice_instance = described_class.new
-        expect(voice_instance.name).to be :jane
-      end
-
       it 'raises an exception for unknown voice' do
         expect { described_class.new :some_random_voice }
           .to raise_exception described_class::VoiceNotAllowed

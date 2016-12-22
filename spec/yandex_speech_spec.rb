@@ -4,17 +4,17 @@ require 'spec_helper'
 
 module YandexSpeechApi
   describe YandexSpeechApi do
-    context "Going to be tested in valid context" do
+    context "Going to be tested with successful Net:HTTP requests" do
       STUBBED_PATH = File.join __dir__, 'stubbed'
       TEMP_PATH    = File.join __dir__, 'tmp'
 
-      before :each do
+      before :each do # stub Net:HTTP request
         path = File.join(STUBBED_PATH, "stubbed_cat.mp3")
         stub_request(:get, /https:\/\/tts.voicetech.yandex.net\/.*/)
           .to_return status: 200, body: File.open(path).read
       end
 
-      after :each do
+      after :each do # clean-up tmp folder
         Pathname.new(TEMP_PATH).children.reject { |c| c.basename.to_s == '.gitkeep' }
                                         .each(&:unlink)
       end
@@ -85,22 +85,21 @@ module YandexSpeechApi
           speaker = Speaker.init key: "xxxxx-xxxxx-xxxxx-xxxxx"
           speaker.say("Не будите спящего кота.")
         end
+      end # context "Speaker#save_to_file"
+    end # context "Going to be tested with successful Net:HTTP requests"
 
-        it 'raises exception when RestClient reported about fail' do
-          dbl = double
+    # ----------------------------------------------------
 
-          allow(dbl).to receive(:http_code).and_return('400')
-          allow(dbl).to receive(:message).and_return('message')
-
-          allow(Connection).to receive(:send)
-            .and_raise Connection::Refused, dbl
+    context 'Going to be tested with failed Net:HTTP requests' do
+      it 'raises exception when connection falls' do
+        stub_request(:get, /https:\/\/tts.voicetech.yandex.net\/.*/)
+          .to_return status: 400, body: "Unreachable body"
 
           bobby = Speaker.init key: "xxxxx-xxxxx-xxxxx-xxxxx"
 
           expect{bobby.say "313"}
-            .to raise_exception(Connection::Refused)
+            .to raise_exception Connection::ConnectionError
         end
-      end # context "Speaker#save_to_file"
-    end # context "Going to be tested in valid context"
+    end # context "Going to be tested with failed Net:HTTP requests"
   end # describe YandexSpeechApi
 end # module YandexSpeechApi

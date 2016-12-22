@@ -5,11 +5,6 @@ require 'spec_helper'
 module YandexSpeechApi
   describe Emotion do
     context '#new' do
-      it 'creates instance with neutral emotion by default' do
-        emotion_instance = described_class.new
-        expect(emotion_instance.type).to be :neutral
-      end
-
       it 'raises an exception for unknown emotion' do
         expect { described_class.new :some_random_emotion }
           .to raise_exception described_class::EmotionNotAllowed

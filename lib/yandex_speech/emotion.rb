@@ -18,8 +18,9 @@ module YandexSpeechApi
 
     attr_reader :type
 
-    def initialize(emotion = :neutral)
+    def initialize(emotion)
       @type = emotion.downcase.to_sym
+
       raise EmotionNotAllowed, emotion unless emotion_known? @type
     end
 
@@ -32,7 +33,7 @@ module YandexSpeechApi
     ##
     # Raised when unknown emotion has been selected.
 
-    class EmotionNotAllowed < StandardError
+    class EmotionNotAllowed < YandexSpeechError
       def initialize(emotion); super "Emotion '#{emotion}' not allowed for usage. To see list of allowed emotions use Emotion#list" end; end
   end # class Emotion
 end # module YandexSpeechApi
