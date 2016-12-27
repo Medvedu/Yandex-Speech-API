@@ -2,26 +2,24 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   class Speed
-    class << self
 
-      # @example #1
-      #   list[:slow]      # ==> 0.5
-      #
-      # @example #2
-      #   list[:wrong_key] # ==> nil
-      #
-      # @return [Hash]
+    # @example #1
+    #   list[:slow]      # ==> 0.5
+    #
+    # @example #2
+    #   list[:wrong_key] # ==> nil
+    #
+    # @return [Hash]
 
-      def modes
-        {
-          :slowest  => 0.1,  # minimal allowed speed
-          :slow     => 0.5,
-          :standard => 1.0,  # default
-          :fast     => 1.5,
-          :fastest  => 3.0   # maximal allowed speed
-        }
-      end
-    end # class << self
+    def self.modes
+      {
+        :slowest  => 0.1,  # minimal allowed speed
+        :slow     => 0.5,
+        :standard => 1.0,  # default
+        :fast     => 1.5,
+        :fastest  => 3.0   # maximal allowed speed
+      }
+    end
 
     # @return [Float]
     #   In range [(0.1)..3.0]

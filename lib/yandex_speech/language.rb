@@ -6,10 +6,10 @@ module YandexSpeechApi
     ##
     # List of allowed languages
     #
-    # @return [Array<Classes>]
+    # @return [Array<Symbols>]
 
     def self.allowed_languages
-      @cached_list ||= Array(codes.keys)
+      @cached_list ||= codes.keys
     end
 
     def self.codes # no-doc

@@ -2,39 +2,36 @@
 # frozen_string_literal: true
 module YandexSpeechApi
   class Key
-    class << self
 
-      ##
-      # Sets global key.
-      #
-      # @param [Key, Symbol] new_key
-      #
-      # @exception InvalidGlobalKey
-      #   raised when +new_key+ param have unexpected class.
+    ##
+    # Sets global key.
+    #
+    # @param [Key, Symbol] new_key
+    #
+    # @exception InvalidGlobalKey
+    #   raised when +new_key+ param have unexpected class.
 
-      def global_key=(new_key)
-        key_tmp = new_key.is_a?(Key) ? new_key : Key.new(new_key)
-        raise InvalidGlobalKey, key_tmp unless key_tmp.present?
-        @global_key = key_tmp
-      end
+    def self.global_key=(new_key)
+      key_tmp = new_key.is_a?(Key) ? new_key : Key.new(new_key)
+      raise InvalidGlobalKey, key_tmp unless key_tmp.present?
+      @global_key = key_tmp
+    end
 
-      ##
-      # @return [TrueClass, FalseClass]
-      #   True if global key set, otherwise returns false.
+    ##
+    # @return [TrueClass, FalseClass]
+    #   True if global key was set, otherwise returns false.
 
-      def global_key?
-        !!global_key
-      end
+    def self.global_key?
+      !!global_key
+    end
 
-      private
+    ##
+    # @return [Key, nil]
 
-      ##
-      # @return [Key, nil]
-
-      def global_key
-        @global_key
-      end
-    end # class << self
+    def self.global_key
+      @global_key
+    end
+    private_class_method :global_key
 
     def initialize(key)
       @instance_key = key
