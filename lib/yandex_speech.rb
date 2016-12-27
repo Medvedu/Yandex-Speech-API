@@ -17,7 +17,7 @@ module YandexSpeechApi
   # @example Basic usage
   #   key = File.open('secret key/key').readline.strip
   #
-  #   speaker = YandexSpeechApi::Speaker.init key: key
+  #   speaker = YandexSpeechApi::Speaker.init key: key, language: 'russian'
   #   speaker.save_to_file "Не будите спящего кота."
   #
   # @example Hash syntax
@@ -51,36 +51,35 @@ module YandexSpeechApi
   # Do not share this key to third party.
   #
   class Speaker
-    class << self
-      ##
-      # Creates +Speaker+ instance.
-      #
-      # @param [Proc] callback
-      #   Used to set object state throw {do ... end} block.
-      #
-      # @param [HASH] settings
-      #   Overrides default settings.
-      # @option settings [Symbol] :speed (:standard)
-      #   @see Speaker#speed for details.
-      # @option settings [Symbol] :voice (:alyss)
-      #   @see Speaker#voice for details.
-      # @option settings [Symbol] :emotion (:neutral)
-      #   @see Speaker#emotion for details.
-      # @option settings [Symbol] :language (:english)
-      #   @see Speaker#language for details.
-      # @option settings [Symbol] :format (:mp3)
-      #   @see Speaker#format for details.
-      # @option settings [Symbol] :key (:unknown)
-      #   @see Speaker#key for details.
-      #
-      # @return [YandexSpeech]
 
-      def init(settings = {}, &callback)
-        new settings, &callback
-      end
-    end # class << self
+    ##
+    # Creates +Speaker+ instance.
+    #
+    # @param [Proc] callback
+    #   Used to set object state throw {do ... end} block.
+    #
+    # @param [HASH] settings
+    #   Overrides default settings.
+    # @option settings [Symbol] :speed (:standard)
+    #   @see Speaker#speed for details.
+    # @option settings [Symbol] :voice (:alyss)
+    #   @see Speaker#voice for details.
+    # @option settings [Symbol] :emotion (:neutral)
+    #   @see Speaker#emotion for details.
+    # @option settings [Symbol] :language (:english)
+    #   @see Speaker#language for details.
+    # @option settings [Symbol] :format (:mp3)
+    #   @see Speaker#format for details.
+    # @option settings [Symbol] :key (:unknown)
+    #   @see Speaker#key for details.
+    #
+    # @return [YandexSpeech]
 
+    def self.init(settings = {}, &callback)
+      new settings, &callback
+    end
     private_class_method :new
+
 
     ##
     # Determines dictor speech speed.
@@ -216,7 +215,7 @@ module YandexSpeechApi
     # @example #save_to_file usage
     #   key = File.open('secret key/key').readline.strip
     #
-    #   speaker = YandexSpeechApi::Speaker.init key: key
+    #   speaker = YandexSpeechApi::Speaker.init key: key, language: 'russian'
     #   speaker.save_to_file "Не будите спящего кота.", 'let_cat_sleep'
     #
     # @param [String] text

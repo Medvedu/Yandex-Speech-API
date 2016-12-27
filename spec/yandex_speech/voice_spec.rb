@@ -10,14 +10,12 @@ module YandexSpeechApi
           .to raise_exception described_class::VoiceNotAllowed
       end
 
-      it 'creates object instance when emotion param is symbol' do
-        expect(described_class.new(:alyss))
-          .to be_instance_of Voice
+      it 'creates object instance when voice param is a symbol' do
+        expect(described_class.new(:alyss)).to be_instance_of Voice
       end
 
-      it 'creates object instance when emotion param is string' do
-        expect(described_class.new('ALYSs'))
-          .to be_instance_of Voice
+      it 'creates object instance when voice param is a string' do
+        expect(described_class.new('ALYSs')).to be_instance_of Voice
       end
     end # context #new
 

@@ -9,7 +9,7 @@ module YandexSpeechApi
     #   Used to set object attributes throw {do...end} block.
     #
     # @example Block syntax
-    #   key = 'Your secret key'#
+    #   key = 'Your secret key'
     #   message = "one two three. one two three. one two three four."
     #
     #   speaker = YandexSpeechApi::Speaker.init do |s|

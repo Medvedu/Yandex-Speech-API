@@ -1,5 +1,7 @@
 /Gemfile.lock
+coverage
 spec/coverage
+spec/coverage/**/*
 .idea/
 *.gem
 

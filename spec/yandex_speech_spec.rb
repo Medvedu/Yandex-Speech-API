@@ -80,10 +80,17 @@ module YandexSpeechApi
 
       context "Speaker#say" do
         it 'calls mp3 player' do
-          expect_any_instance_of(MP3_Player).to receive(:play)
+          expect_any_instance_of(MP3_Player::Base).to receive(:play)
 
           speaker = Speaker.init key: "xxxxx-xxxxx-xxxxx-xxxxx"
           speaker.say("Не будите спящего кота.")
+        end
+
+        it 'raises an exception when text too long' do
+          speaker = Speaker.init key: "xxxxx-xxxxx-xxxxx-xxxxx"
+          phrase = 'some phrase' * 5000
+
+          expect{ speaker.say phrase }.to raise_exception Speaker::TextTooBig
         end
       end # context "Speaker#save_to_file"
     end # context "Going to be tested with successful Net:HTTP requests"

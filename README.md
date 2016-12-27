@@ -1,4 +1,4 @@
-# YandexSpeechApi [![Gem Version](https://badge.fury.io/rb/yandex_speech_api.svg)](https://badge.fury.io/rb/yandex_speech_api) [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API) [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API) [![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API) [![Coverage Status](https://coveralls.io/repos/github/Medvedu/Yandex-Speech-API/badge.svg)](https://coveralls.io/github/Medvedu/Yandex-Speech-API)
+# YandexSpeechApi [![Gem Version](https://badge.fury.io/rb/yandex_speech_api.svg)](https://badge.fury.io/rb/yandex_speech_api) [![Build Status](https://travis-ci.org/Medvedu/Yandex-Speech-API.svg?branch=master)](https://travis-ci.org/Medvedu/Yandex-Speech-API) [![Code Climate](https://codeclimate.com/github/Medvedu/Yandex-Speech-API/badges/gpa.svg)](https://codeclimate.com/github/Medvedu/Yandex-Speech-API) [![Inline docs](http://inch-ci.org/github/Medvedu/Yandex-Speech-API.svg?branch=master)](http://inch-ci.org/github/Medvedu/Yandex-Speech-API) [![Coverage Status](https://coveralls.io/repos/github/Medvedu/Yandex-Speech-API/badge.svg?branch=master)](https://coveralls.io/github/Medvedu/Yandex-Speech-API?branch=master)
 
 ## Описание
 
@@ -28,19 +28,17 @@ _Для начала работы с api достаточно указать к�
 ```ruby
 key = File.open('secret key/key').readline.strip
 
-speaker = YandexSpeechApi::Speaker.init key: key
+speaker = YandexSpeechApi::Speaker.init key: key, language: 'russian'
 speaker.save_to_file "Не будите спящего кота."
 ```
 
 ### Пример 2
 
-_Когда это неоходимо, конструктор позволяет переписывать параметры по умолчанию, например, так можно выбрать язык:_
-
 ```ruby
 YandexSpeechApi::Key.global_key = File.open('secret key/key').readline.strip
 
 message = "Don't trouble trouble until trouble troubles you"
-speaker = YandexSpeechApi::Speaker.init(language: 'english', voice: :zahar, speed: 0.23)
+speaker = YandexSpeechApi::Speaker.init(voice: :zahar, speed: 0.23)
 speaker.say message
 ```
 
@@ -91,7 +89,6 @@ speaker.say message
 ## Зависимости
 
 * Ruby 2.0.0 или выше
-* rest-client   '>= 2.0.0'
 
 ### Linux-специфичные зависимости:
 

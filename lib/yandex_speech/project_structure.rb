@@ -23,5 +23,8 @@ module YandexSpeechApi
   end
   private_class_method :load
 
+  load folder: 'mp3_player',
+       files:  %w(base mac_mp3_player linux_mp3_player)
+
   load files: %w(helpers mp3_player key language format voice emotion speed connection speaker)
 end # module YandexSpeechApi
