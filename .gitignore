@@ -1,12 +1,13 @@
-
 /Gemfile.lock
-
-#
-# RubyMine project files
-#
+coverage
+spec/coverage
+spec/coverage/**/*
 .idea/
+*.gem
 
-#
+/spec/tmp/*
+!/spec/tmp/.gitkeep
+/samples/*.mp3
+
 # Do not share your secret key!
-#
-*/secret key/*
+*/secret key/key

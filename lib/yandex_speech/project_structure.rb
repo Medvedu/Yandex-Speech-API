@@ -1,17 +1,18 @@
 # encoding: utf-8
-
+# frozen_string_literal: true
 module YandexSpeechApi
-  #
-  # dependents from core lib
-  #
+  # dependencies from core lib
+  require 'uri'
+  require 'net/http'
 
-  #
-  # dependents from rubygems.org
-  #
+  ##
+  # loads *.rb files in requested order
 
-  #
-  # project structure
-  #
+  def self.req(**params)
+    params[:files].each do |f|
+      require File.join(__dir__, params[:folder].to_s, f)
+    end
+  end; private_class_method :req
 
-  require_relative 'speaker'
+  req files: %w(setters sounds connection speaker)
 end # module YandexSpeechApi

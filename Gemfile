@@ -2,9 +2,20 @@
 
 source 'https://rubygems.org'
 
-ruby '>= 2.0.0'
+gem 'rake'
 
 gemspec
 
-gem 'rake',                             '~> 10.4.2'
-gem 'httpclient',                       '~> 2.8.2'
+group :development do
+  gem 'webmock',                        '~> 2.3.1'
+  gem 'rspec',                          '~> 3.5.0'
+end
+
+group :guard do
+  gem 'rb-readline',                    '~> 0.5.3', require: false
+  gem 'guard-rspec',                    '~> 4.7.3', require: false
+end
+
+group :test do
+  gem 'coveralls', require: false
+end
